@@ -26,6 +26,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `bun run lint` - Lint code with Biome
 - `bun run check` - Format + lint + organize imports (use before committing)
 
+## Commit Messages
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+```
+
+**Types:**
+| Type | Description |
+|------|-------------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation only |
+| `style` | Formatting, missing semicolons, etc. |
+| `refactor` | Code change that neither fixes a bug nor adds a feature |
+| `perf` | Performance improvement |
+| `test` | Adding or updating tests |
+| `chore` | Build process, dependencies, tooling |
+
+**Scope** (optional): affected area (`auth`, `modal`, `i18n`, `router`, etc.)
+
+**Examples:**
+```
+feat(auth): add email verification flow
+fix(modal): prevent double-close on rapid clicks
+refactor(router): simplify guard composition
+chore: update dependencies
+docs: add modal system documentation
+```
+
+**Rules:**
+- Use imperative mood: "add feature" not "added feature"
+- Lowercase first letter after type
+- No period at end
+- Keep first line under 72 characters
+
 ## Tech Stack
 
 - **Bun** as exclusive runtime and package manager (prefer Bun APIs over Node.js)
