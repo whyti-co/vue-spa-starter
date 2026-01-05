@@ -54,9 +54,12 @@ export const guards = {
 		},
 };
 
+export const LAYOUT_ROUTE_NAME = '__layout__';
+
 const routes: RouteRecordRaw[] = [
 	{
 		path: '/',
+		name: LAYOUT_ROUTE_NAME,
 		component: () => import('@/components/layouts/DefaultLayout'),
 		children: [
 			{
