@@ -1,62 +1,83 @@
 import { defineComponent } from 'vue';
+import { RouterLink } from 'vue-router';
+import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
+import { TopBarTitle } from '@/components/layouts';
 import PageWrapper from '@/components/PageWrapper';
-import { useModal } from '@/core/modal';
-import { usePlugin } from '@/core/plugins';
-import type { TExampleExports } from '../exports';
+
+type TExample = {
+	path: string;
+	title: string;
+	description: string;
+};
+
+const examples: TExample[] = [
+	{
+		path: '/examples/modals',
+		title: 'Modals',
+		description: 'Simple modals and multi-step modal flows with router',
+	},
+	{
+		path: '/examples/stores',
+		title: 'Pinia Stores',
+		description: 'State management with localStorage persistence',
+	},
+	{
+		path: '/examples/i18n',
+		title: 'i18n',
+		description: 'Internationalization with ICU message format',
+	},
+	{
+		path: '/examples/theme',
+		title: 'Theme Switcher',
+		description: 'Dark/light mode toggle with system preference',
+	},
+	{
+		path: '/examples/layout',
+		title: 'Layout System',
+		description: 'TopBar and Dock configuration per page',
+	},
+	{
+		path: '/examples/async',
+		title: 'Async Components',
+		description: 'Lazy-loaded components with Suspense',
+	},
+	{
+		path: '/examples/platform',
+		title: 'Platform Features',
+		description: 'Haptics, biometry, and platform detection',
+	},
+	{
+		path: '/examples/plugins',
+		title: 'Plugin System',
+		description: 'Plugin exports, composables, and modals',
+	},
+];
 
 export default defineComponent({
-	name: 'ExamplePluginPage',
+	name: 'ExamplesIndex',
 	setup() {
-		const { open } = useModal();
-		const { ready, data: example } = usePlugin<TExampleExports>('example');
-
-		async function openModal() {
-			const result = await open<{ message: string }>('/example-modal');
-			if (result) {
-				console.log('Modal result:', result.message);
-			}
-		}
-
-		return () => {
-			if (!ready.value || !example.value) {
-				return (
-					<PageWrapper>
-						<div class="p-4 flex justify-center">
-							<span class="loading loading-spinner loading-lg" />
-						</div>
-					</PageWrapper>
-				);
-			}
-
-			const { Counter } = example.value;
-			const counter = example.value.useCounter();
-
-			return (
-				<PageWrapper>
-					<div class="p-4 space-y-6">
-						<h1 class="text-2xl font-bold">Example Plugin</h1>
-
-						<div class="card bg-base-200 p-4">
-							<h2 class="text-lg font-semibold mb-4">Counter Component</h2>
-							<Counter />
-						</div>
-
-						<div class="card bg-base-200 p-4">
-							<h2 class="text-lg font-semibold mb-2">Counter State</h2>
-							<p>
-								Count: {counter.count} (doubled: {counter.doubled})
-							</p>
-						</div>
-
-						<div class="card bg-base-200 p-4">
-							<h2 class="text-lg font-semibold mb-4">Modal Demo</h2>
-							<button class="btn btn-primary" onClick={openModal}>
-								Open Plugin Modal
-							</button>
-						</div>
-					</div>
-				</PageWrapper>
-			);
-		};
+		return () => (
+			<PageWrapper
+				layout={{
+					topBar: {
+						visible: true,
+						title: () => <TopBarTitle title="Examples" />,
+						left: { icon: ArrowLeftIcon, to: '/' },
+					},
+				}}
+			>
+				<div class="p-4 space-y-3">
+					{examples.map((example) => (
+						<RouterLink
+							to={example.path}
+							class="card bg-base-200 p-4 block hover:bg-base-300 transition-colors"
+						>
+							<h2 class="font-semibold">{example.title}</h2>
+							<p class="text-sm text-base-content/70">{example.description}</p>
+						</RouterLink>
+					))}
+				</div>
+			</PageWrapper>
+		);
 	},
 });

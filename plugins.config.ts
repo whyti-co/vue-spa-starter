@@ -1,7 +1,7 @@
 import type { TPluginsConfig } from './src/core/plugins/types';
 
 export const plugins: TPluginsConfig = {
-	example: {
+	examples: {
 		enabled: true,
 	},
 };

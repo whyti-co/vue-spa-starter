@@ -1,6 +1,6 @@
 import type { TPlugin } from '@/core/plugins';
 
-declare const __PLUGIN_EXAMPLE_ENABLED__: boolean;
+declare const __PLUGIN_EXAMPLES_ENABLED__: boolean;
 
 /**
  * Load all enabled plugins.
@@ -11,7 +11,7 @@ declare const __PLUGIN_EXAMPLE_ENABLED__: boolean;
 export async function loadEnabledPlugins(): Promise<TPlugin[]> {
 	const plugins: TPlugin[] = [];
 
-	if (__PLUGIN_EXAMPLE_ENABLED__) {
+	if (__PLUGIN_EXAMPLES_ENABLED__) {
 		const { default: plugin } = await import('../../examples/plugin');
 		plugins.push(plugin);
 	}
