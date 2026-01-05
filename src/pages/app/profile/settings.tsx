@@ -1,11 +1,14 @@
 import { defineComponent } from 'vue';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
 import GlobeIcon from '@/assets/icons/globe.svg?component';
-import MoonIcon from '@/assets/icons/moon.svg?component';
 import SunIcon from '@/assets/icons/sun.svg?component';
 import { TopBarTitle } from '@/components/layouts';
 import PageWrapper from '@/components/PageWrapper';
-import { useTheme } from '@/core/composables/useTheme';
+import {
+	type TThemeMode,
+	themeModes,
+	useTheme,
+} from '@/core/composables/useTheme';
 import { type Locale, locales, messages, useI18n } from '@/core/i18n';
 
 const localeLabels: Record<Locale, string> = {
@@ -16,7 +19,7 @@ const localeLabels: Record<Locale, string> = {
 export default defineComponent({
 	name: 'SettingsPage',
 	setup() {
-		const { theme, toggle: toggleTheme } = useTheme();
+		const { mode, setMode } = useTheme();
 		const { t, locale, setLocale } = useI18n();
 
 		return () => (
@@ -40,24 +43,19 @@ export default defineComponent({
 								{t(messages.pages.settings.appearance)}
 							</h2>
 							<div class="form-control">
-								<label class="label cursor-pointer justify-between px-0">
-									<div class="flex items-center gap-3">
-										{theme.value === 'dark' ? (
-											<MoonIcon class="h-5 w-5 text-primary" />
-										) : (
-											<SunIcon class="h-5 w-5 text-warning" />
-										)}
-										<span class="label-text">
-											{t(messages.pages.settings.darkMode)}
-										</span>
-									</div>
-									<input
-										type="checkbox"
-										class="toggle toggle-primary"
-										checked={theme.value === 'dark'}
-										onChange={toggleTheme}
-									/>
-								</label>
+								<select
+									class="select select-bordered"
+									value={mode.value}
+									onChange={(e) =>
+										setMode((e.target as HTMLSelectElement).value as TThemeMode)
+									}
+								>
+									{themeModes.map((opt) => (
+										<option key={opt.value} value={opt.value}>
+											{opt.label}
+										</option>
+									))}
+								</select>
 							</div>
 						</div>
 					</div>

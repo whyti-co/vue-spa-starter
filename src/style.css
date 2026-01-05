@@ -1,6 +1,42 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* Telegram Mini App theme - uses --tg-theme-* variables injected by Telegram */
+@plugin "daisyui/theme" {
+	name: "tma";
+	default: false;
+	prefersdark: false;
+	color-scheme: "light dark";
+	--color-base-100: var(--tg-theme-bg-color, #ffffff);
+	--color-base-200: var(--tg-theme-secondary-bg-color, #f0f0f0);
+	--color-base-300: var(--tg-theme-section-bg-color, #e0e0e0);
+	--color-base-content: var(--tg-theme-text-color, #000000);
+	--color-primary: var(--tg-theme-button-color, #3390ec);
+	--color-primary-content: var(--tg-theme-button-text-color, #ffffff);
+	--color-secondary: var(--tg-theme-hint-color, #999999);
+	--color-secondary-content: var(--tg-theme-text-color, #000000);
+	--color-accent: var(--tg-theme-accent-text-color, var(--tg-theme-link-color, #3390ec));
+	--color-accent-content: var(--tg-theme-button-text-color, #ffffff);
+	--color-neutral: var(--tg-theme-subtitle-text-color, #707579);
+	--color-neutral-content: var(--tg-theme-bg-color, #ffffff);
+	--color-info: var(--tg-theme-link-color, #3390ec);
+	--color-info-content: var(--tg-theme-button-text-color, #ffffff);
+	--color-success: #31b545;
+	--color-success-content: #ffffff;
+	--color-warning: #ffc107;
+	--color-warning-content: #000000;
+	--color-error: var(--tg-theme-destructive-text-color, #e53935);
+	--color-error-content: #ffffff;
+	--radius-selector: 0.75rem;
+	--radius-field: 0.75rem;
+	--radius-box: 1rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
 @plugin "daisyui/theme" {
 	name: "light";
 	default: false;

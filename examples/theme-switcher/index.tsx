@@ -1,34 +1,47 @@
 import { defineComponent } from 'vue';
-import { useTheme } from '@/core/composables/useTheme';
+import { themeModes, useTheme } from '@/core/composables/useTheme';
 
 export default defineComponent({
 	name: 'ThemeSwitcherExample',
 	setup() {
-		const { theme, toggle } = useTheme();
+		const { mode, theme, setMode } = useTheme();
 
 		return () => (
-			<div class="min-h-screen p-8">
-				<h1 class="text-2xl font-bold mb-4">Theme Switcher</h1>
-
-				<div class="form-control w-fit">
-					<label class="label cursor-pointer gap-4">
-						<span class="label-text">Dark Mode</span>
-						<input
-							type="checkbox"
-							class="toggle"
-							checked={theme.value === 'dark'}
-							onChange={toggle}
-						/>
-					</label>
+			<div class="p-4 space-y-6">
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-3">Theme Mode</h2>
+					<div class="flex flex-wrap gap-2">
+						{themeModes.map((opt) => (
+							<button
+								key={opt.value}
+								class={[
+									'btn btn-sm',
+									mode.value === opt.value ? 'btn-primary' : 'btn-ghost',
+								]}
+								onClick={() => setMode(opt.value)}
+							>
+								{opt.label}
+							</button>
+						))}
+					</div>
 				</div>
 
-				<div class="mt-8 card bg-base-200 p-6">
-					<p class="text-base-content">
-						Current theme: <strong>{theme.value}</strong>
-					</p>
-					<p class="text-base-content/60 text-sm mt-2">
-						Theme is persisted to localStorage and respects system preference on
-						first load.
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-2">Current State</h2>
+					<div class="text-sm space-y-1">
+						<p>
+							Mode: <span class="badge">{mode.value}</span>
+						</p>
+						<p>
+							Resolved theme: <span class="badge badge-primary">{theme.value}</span>
+						</p>
+					</div>
+				</div>
+
+				<div class="card bg-base-200 p-4">
+					<p class="text-sm text-base-content/70">
+						<strong>System</strong> uses platform theme (Telegram in TMA) or
+						browser preference. Theme choice is persisted to localStorage.
 					</p>
 				</div>
 			</div>
