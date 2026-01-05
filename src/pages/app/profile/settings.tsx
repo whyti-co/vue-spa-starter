@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
+import DocumentIcon from '@/assets/icons/document.svg?component';
 import GlobeIcon from '@/assets/icons/globe.svg?component';
 import SunIcon from '@/assets/icons/sun.svg?component';
 import { TopBarTitle } from '@/components/layouts';
@@ -10,6 +11,7 @@ import {
 	useTheme,
 } from '@/core/composables/useTheme';
 import { type Locale, locales, messages, useI18n } from '@/core/i18n';
+import { useModal } from '@/core/modal';
 
 const localeLabels: Record<Locale, string> = {
 	en: 'English',
@@ -21,6 +23,7 @@ export default defineComponent({
 	setup() {
 		const { mode, setMode } = useTheme();
 		const { t, locale, setLocale } = useI18n();
+		const { open } = useModal();
 
 		return () => (
 			<PageWrapper
@@ -81,6 +84,22 @@ export default defineComponent({
 									))}
 								</select>
 							</div>
+						</div>
+					</div>
+
+					<div class="card bg-base-200">
+						<div class="card-body gap-4">
+							<h2 class="card-title gap-2">
+								<DocumentIcon class="h-5 w-5" />
+								{t(messages.pages.settings.legal)}
+							</h2>
+							<button
+								type="button"
+								class="btn btn-ghost justify-start"
+								onClick={() => open('/tos')}
+							>
+								{t(messages.pages.settings.termsOfService)}
+							</button>
 						</div>
 					</div>
 				</div>
