@@ -21,7 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `bun run dev` - Start development server with hot reload
 - `bun run build` - Type-check with vue-tsc then build for production
 - `bun run preview` - Preview production build on port 5173
-- `bun run i18n:extract` - Extract messages from `defineMessages` to `src/core/i18n/messages/en.json`
+- `bun run i18n:extract` - Extract messages, sort all locale files, show translation diff
 - `bun run format` - Format code with Biome
 - `bun run lint` - Lint code with Biome
 - `bun run check` - Format + lint + organize imports (use before committing)
@@ -113,6 +113,7 @@ src/
 └── style.css
 
 examples/                # Reference implementations
+scripts/                 # Helper scripts (i18n, etc.)
 ```
 
 ### Page Naming
@@ -196,7 +197,10 @@ t(messages.pages.home.title)
 t(authMessages.signIn)
 ```
 
-Run `bun run i18n:extract` to generate `en.json` from `defineMessages`.
+Run `bun run i18n:extract` to:
+1. Extract messages from `defineMessages` to `en.json`
+2. Sort all locale files alphabetically by key
+3. Show diff of missing/obsolete keys in other locales
 
 **IMPORTANT:** NEVER manually edit `messages/*.json` files. Always add messages to `messages.ts` using `defineMessages` and run `bun run i18n:extract` to regenerate JSON files.
 

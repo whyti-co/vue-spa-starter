@@ -7,7 +7,7 @@
 		"dev": "bunx --bun vite --host",
 		"build": "vue-tsc -b && bunx --bun vite build",
 		"preview": "bunx --bun vite preview --host --port 5173",
-		"i18n:extract": "bunx @formatjs/cli extract 'src/**/*.ts' 'src/**/*.tsx' --ignore 'src/**/*.d.ts' --out-file src/core/i18n/messages/en.json --flatten --format simple",
+		"i18n:extract": "bun scripts/i18n-extract.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --write ."
@@ -21,6 +21,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
+		"@formatjs/cli": "^6.9.0",
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/node": "^24.10.1",
 		"@vitejs/plugin-vue": "^6.0.1",
