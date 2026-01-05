@@ -159,6 +159,15 @@
 	}
 }
 
+/* Prevent iOS zoom on input focus (requires 16px minimum) */
+@supports (-webkit-touch-callout: none) {
+	input,
+	select,
+	textarea {
+		font-size: 16px;
+	}
+}
+
 /* Mobile drawer dock - only applies on small screens */
 @media (max-width: 767px) {
 	.dock-overlay {
@@ -322,6 +331,7 @@
 	.dock-drawer-open .dock-icons {
 		transform: translateY(-100%);
 		opacity: 0;
+		pointer-events: none;
 	}
 
 	.dock-icons button {
