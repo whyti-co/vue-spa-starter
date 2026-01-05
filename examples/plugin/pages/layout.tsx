@@ -4,9 +4,9 @@ import { TopBarTitle } from '@/components/layouts';
 import PageWrapper from '@/components/PageWrapper';
 import {
 	DefaultLayoutExample,
-	TopBarWithTitleExample,
-	TopBarOnClickExample,
 	HiddenDockExample,
+	TopBarOnClickExample,
+	TopBarWithTitleExample,
 } from '../../layout';
 
 const examples = [
@@ -41,7 +41,9 @@ export default defineComponent({
 								<button
 									role="tab"
 									class={['tab', activeTab.value === ex.id && 'tab-active']}
-									onClick={() => (activeTab.value = ex.id)}
+									onClick={() => {
+										activeTab.value = ex.id;
+									}}
 								>
 									{ex.label}
 								</button>

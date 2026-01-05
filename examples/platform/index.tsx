@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { usePlatform, useHaptics, useBiometry } from '@/core/platform';
+import { useBiometry, useHaptics, usePlatform } from '@/core/platform';
 
 export default defineComponent({
 	name: 'PlatformExample',
@@ -79,7 +79,9 @@ export default defineComponent({
 						Available: {biometry.available ? 'Yes' : 'No'}
 					</p>
 					{biometry.type && (
-						<p class="text-sm mb-3 text-base-content/70">Type: {biometry.type}</p>
+						<p class="text-sm mb-3 text-base-content/70">
+							Type: {biometry.type}
+						</p>
 					)}
 					<button
 						class="btn btn-primary btn-sm"

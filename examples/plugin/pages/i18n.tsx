@@ -2,7 +2,7 @@ import { defineComponent, ref } from 'vue';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
 import { TopBarTitle } from '@/components/layouts';
 import PageWrapper from '@/components/PageWrapper';
-import { Simple, Advanced } from '../../i18n';
+import { Advanced, Simple } from '../../i18n';
 
 export default defineComponent({
 	name: 'I18nExample',
@@ -24,14 +24,18 @@ export default defineComponent({
 						<button
 							role="tab"
 							class={['tab', activeTab.value === 'simple' && 'tab-active']}
-							onClick={() => (activeTab.value = 'simple')}
+							onClick={() => {
+								activeTab.value = 'simple';
+							}}
 						>
 							Simple
 						</button>
 						<button
 							role="tab"
 							class={['tab', activeTab.value === 'advanced' && 'tab-active']}
-							onClick={() => (activeTab.value = 'advanced')}
+							onClick={() => {
+								activeTab.value = 'advanced';
+							}}
 						>
 							Advanced
 						</button>

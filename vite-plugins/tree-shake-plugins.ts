@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite';
-import type { TPluginEntry } from '../src/core/plugins/types';
 import { plugins } from '../plugins.config';
+import type { TPluginEntry } from '../src/core/plugins/types';
 
 /**
  * Vite plugin that creates compile-time constants for plugin enabled/disabled state.
@@ -17,7 +17,10 @@ import { plugins } from '../plugins.config';
 export function treeShakePlugins(): Plugin {
 	const defines: Record<string, string> = {};
 
-	for (const [name, entry] of Object.entries(plugins) as [string, TPluginEntry][]) {
+	for (const [name, entry] of Object.entries(plugins) as [
+		string,
+		TPluginEntry,
+	][]) {
 		const key = `__PLUGIN_${name.toUpperCase()}_ENABLED__`;
 		defines[key] = JSON.stringify(entry.enabled);
 	}

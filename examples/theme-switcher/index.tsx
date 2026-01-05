@@ -33,7 +33,8 @@ export default defineComponent({
 							Mode: <span class="badge">{mode.value}</span>
 						</p>
 						<p>
-							Resolved theme: <span class="badge badge-primary">{theme.value}</span>
+							Resolved theme:{' '}
+							<span class="badge badge-primary">{theme.value}</span>
 						</p>
 					</div>
 				</div>

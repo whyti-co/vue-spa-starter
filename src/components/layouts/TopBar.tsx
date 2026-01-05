@@ -24,7 +24,9 @@ export default defineComponent({
 						{layout.topBar.left && (
 							<button
 								class="btn btn-ghost btn-sm btn-square"
-								onClick={() => handleAction(layout.topBar.left!)}
+								onClick={() => {
+									if (layout.topBar.left) handleAction(layout.topBar.left);
+								}}
 							>
 								{h(layout.topBar.left.icon, { class: 'h-5 w-5' })}
 							</button>
@@ -39,7 +41,9 @@ export default defineComponent({
 						{layout.topBar.right && (
 							<button
 								class="btn btn-ghost btn-sm btn-square"
-								onClick={() => handleAction(layout.topBar.right!)}
+								onClick={() => {
+									if (layout.topBar.right) handleAction(layout.topBar.right);
+								}}
 							>
 								{h(layout.topBar.right.icon, { class: 'h-5 w-5' })}
 							</button>

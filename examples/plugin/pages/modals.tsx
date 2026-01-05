@@ -2,7 +2,7 @@ import { defineComponent, ref } from 'vue';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
 import { TopBarTitle } from '@/components/layouts';
 import PageWrapper from '@/components/PageWrapper';
-import { SimpleModal, ModalWithRouter } from '../../modal';
+import { ModalWithRouter, SimpleModal } from '../../modal';
 
 export default defineComponent({
 	name: 'ModalsExample',
@@ -24,14 +24,18 @@ export default defineComponent({
 						<button
 							role="tab"
 							class={['tab', activeTab.value === 'simple' && 'tab-active']}
-							onClick={() => (activeTab.value = 'simple')}
+							onClick={() => {
+								activeTab.value = 'simple';
+							}}
 						>
 							Simple
 						</button>
 						<button
 							role="tab"
 							class={['tab', activeTab.value === 'router' && 'tab-active']}
-							onClick={() => (activeTab.value = 'router')}
+							onClick={() => {
+								activeTab.value = 'router';
+							}}
 						>
 							With Router
 						</button>
