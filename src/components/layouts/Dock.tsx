@@ -5,8 +5,10 @@ import {
 	type SVGAttributes,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import DocumentIcon from '@/assets/icons/document.svg?component';
 import HomeIcon from '@/assets/icons/home.svg?component';
 import ProfileIcon from '@/assets/icons/profile.svg?component';
+import { isPluginReady } from '@/core/plugins';
 
 type TNavItem = {
 	path: string;
@@ -23,6 +25,9 @@ export default defineComponent({
 		const items: TNavItem[] = [
 			{ path: '/', label: 'Home', icon: HomeIcon },
 			{ path: '/profile', label: 'Profile', icon: ProfileIcon },
+			...(isPluginReady('examples')
+				? [{ path: '/examples', label: 'Examples', icon: DocumentIcon }]
+				: []),
 		];
 
 		return () => (
