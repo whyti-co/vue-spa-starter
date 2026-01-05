@@ -1,3 +1,4 @@
+import { useMediaQuery } from '@vueuse/core';
 import { computed, watch } from 'vue';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { useQueue } from '@/core/composables/useQueue';
@@ -11,6 +12,11 @@ export const modalRouter = createRouter({
 export const isOpen = computed(
 	() => modalRouter.currentRoute.value.path !== '/',
 );
+
+// Responsive modal: drawer on mobile, dialog on desktop
+const isMobile = useMediaQuery('(max-width: 767px)');
+export const isDrawerMode = computed(() => isOpen.value && isMobile.value);
+export const isDialogMode = computed(() => isOpen.value && !isMobile.value);
 
 export type TModalStep = {
 	id: string;
