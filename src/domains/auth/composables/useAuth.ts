@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-import { useI18n } from '@/core/i18n';
 import { useSession } from '@/core/session';
 import {
 	login as apiLogin,
@@ -7,23 +6,29 @@ import {
 	fetchCurrentUser,
 	type TLoginCredentials,
 } from '../api/auth';
-import { messages } from '../messages';
+
+export const EAuthError = {
+	Unknown: 'unknown',
+	InvalidCredentials: 'invalid_credentials',
+	NetworkError: 'network_error',
+} as const;
+
+export type TAuthError = (typeof EAuthError)[keyof typeof EAuthError];
 
 export function useAuth() {
 	const session = useSession();
-	const error = ref<string | null>(null);
+	const error = ref<TAuthError | null>(null);
 
 	async function login(credentials: TLoginCredentials) {
-		const { t } = useI18n();
 		session.loading = true;
 		error.value = null;
 
 		try {
 			const response = await apiLogin(credentials);
 			session.setSession(response.user, response.token);
-		} catch (e) {
-			error.value = e instanceof Error ? e.message : t(messages.loginFailed);
-			throw e;
+		} catch {
+			error.value = EAuthError.Unknown;
+			throw error.value;
 		} finally {
 			session.loading = false;
 		}

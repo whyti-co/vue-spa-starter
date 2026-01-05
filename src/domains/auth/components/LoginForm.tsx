@@ -3,8 +3,8 @@ import EmailIcon from '@/assets/icons/email.svg?component';
 import KeyIcon from '@/assets/icons/key.svg?component';
 import { useI18n } from '@/core/i18n';
 import { useSession } from '@/core/session';
-import { useAuth } from '../composables/useAuth';
-import { messages } from '../messages';
+import { type TAuthError, useAuth } from '../composables/useAuth';
+import { errorMessages, messages } from '../messages';
 
 export default defineComponent({
 	name: 'LoginForm',
@@ -31,7 +31,7 @@ export default defineComponent({
 			<form onSubmit={handleSubmit} class="space-y-4">
 				{error.value && (
 					<div class="alert alert-error">
-						<span>{error.value}</span>
+						<span>{t(errorMessages[error.value as TAuthError])}</span>
 					</div>
 				)}
 

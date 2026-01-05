@@ -27,9 +27,12 @@ async function init() {
 	const plugins = await loadEnabledPlugins();
 	await initPlugins(plugins, { app, router, modalRouter, pinia });
 
-	const [i18n] = await Promise.all([createI18n(), useAuth().init()]);
+	const i18n = await createI18n();
+	app.use(i18n);
 
-	app.use(i18n).use(router).mount('#app');
+	await useAuth().init();
+
+	app.use(router).mount('#app');
 }
 
 init();
