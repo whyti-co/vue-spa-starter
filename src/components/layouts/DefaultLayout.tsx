@@ -2,6 +2,7 @@ import { defineComponent, KeepAlive, Transition } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 import { provideLayout } from '@/core/composables/useLayout';
 import { usePageTransition } from '@/core/composables/usePageTransition';
+import { isDrawerMode } from '@/core/modal';
 import Dock from './Dock';
 import PageContainer from './PageContainer';
 import TopBar from './TopBar';
@@ -34,9 +35,7 @@ export default defineComponent({
 						}}
 					</RouterView>
 				</main>
-				<Transition name="slide-up">
-					{layout.dock.visible && <Dock />}
-				</Transition>
+				<Dock visible={layout.dock.visible || isDrawerMode.value} />
 			</div>
 		);
 	},
