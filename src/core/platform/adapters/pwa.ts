@@ -1,0 +1,67 @@
+import { EPlatform, type THapticsStyle, type TPlatformAdapter } from '../types';
+
+const vibrationPatterns: Record<THapticsStyle, number[]> = {
+	light: [10],
+	medium: [20],
+	heavy: [30],
+	success: [10, 50, 10],
+	warning: [20, 50, 20],
+	error: [30, 50, 30, 50, 30],
+};
+
+const hasVibration = 'vibrate' in navigator;
+
+const adapter: TPlatformAdapter = {
+	id: EPlatform.PWA,
+
+	capabilities: {
+		haptics: hasVibration,
+		biometry: false, // WebAuthn could be added later
+		themeSync: false,
+		cloudStorage: false,
+		share: 'share' in navigator,
+		notifications: 'Notification' in window,
+	},
+
+	haptics: {
+		available: hasVibration,
+		impact: (style = 'medium') => {
+			if (hasVibration) {
+				navigator.vibrate(vibrationPatterns[style]);
+			}
+		},
+		notification: (type) => {
+			if (hasVibration) {
+				navigator.vibrate(vibrationPatterns[type]);
+			}
+		},
+		selectionChanged: () => {
+			if (hasVibration) {
+				navigator.vibrate(5);
+			}
+		},
+	},
+
+	biometry: {
+		available: false,
+		type: null,
+		authenticate: async () => false,
+	},
+
+	themeSync: {
+		available: false,
+		subscribe: () => () => {},
+		setHeaderColor: () => {},
+		setBackgroundColor: () => {},
+	},
+
+	init: async () => {
+		// PWA initialization
+	},
+
+	destroy: () => {
+		// Cleanup
+	},
+};
+
+export default adapter;
