@@ -108,12 +108,15 @@ src/
 │       └── verify-identity/
 │           ├── step1.tsx
 │           └── step2.tsx
+├── plugins/             # App plugins (enabled via plugins.config.ts)
 ├── App.tsx
 ├── main.ts
 └── style.css
 
-examples/                # Reference implementations
+examples/                # Reference implementations (including plugin example)
 scripts/                 # Helper scripts (i18n, etc.)
+plugins.config.ts        # Plugin enable/disable configuration
+vite-plugins/            # Custom Vite plugins
 ```
 
 ### Page Naming
@@ -506,3 +509,151 @@ Vue Suspense slots must be passed as an object with render functions:
   }}
 </Suspense>
 ```
+
+### Platform System
+
+Runtime platform detection for PWA, Telegram Mini App (TMA), and webview environments. Single build supports all platforms with graceful feature fallbacks.
+
+```
+core/platform/
+├── index.ts             # usePlatform, useHaptics, useBiometry, initPlatform
+├── types.ts             # EPlatform, TPlatformCapabilities, TPlatformAdapter
+├── detection.ts         # detectPlatform()
+└── adapters/
+    ├── browser.ts       # Default fallback (noop implementations)
+    ├── pwa.ts           # PWA with vibration API
+    ├── tma.ts           # Telegram Mini App SDK
+    └── webview.ts       # Generic webview bridge
+```
+
+**Platform detection** (automatic at startup):
+
+```ts
+import { usePlatform, useHaptics, useBiometry } from '@/core/platform'
+
+const { platform, capabilities, isTMA, isPWA } = usePlatform()
+// platform.value: 'browser' | 'pwa' | 'tma' | 'webview'
+// capabilities.value: { haptics, biometry, themeSync, ... }
+
+const haptics = useHaptics()
+haptics.impact('medium')  // Noop if unavailable
+
+const biometry = useBiometry()
+if (biometry.available) {
+  const success = await biometry.authenticate('Confirm payment')
+}
+```
+
+**Features by platform:**
+| Feature | Browser | PWA | TMA | Webview |
+|---------|---------|-----|-----|---------|
+| Haptics | ❌ | ✅ (vibrate) | ✅ | ❌ |
+| Biometry | ❌ | ❌ | ✅ | ❌ |
+| Theme Sync | ❌ | ❌ | ✅ | ❌ |
+
+### Plugin System
+
+Modular plugin architecture with build-time tree-shaking and lazy-loaded exports.
+
+```
+src/plugins/
+├── index.ts             # loadEnabledPlugins()
+└── [plugin-name]/
+    ├── index.ts         # Plugin definition (routes, setup) - loaded at startup
+    ├── exports.ts       # Heavy code (composables, components) - lazy loaded
+    ├── pages/           # Plugin pages
+    ├── modals/          # Plugin modals
+    └── composables/
+
+plugins.config.ts        # Enable/disable plugins
+```
+
+**Plugin configuration** (`plugins.config.ts`):
+
+```ts
+export const plugins: TPluginsConfig = {
+  web3: { enabled: true },
+  analytics: { enabled: false },  // Tree-shaken from bundle
+}
+```
+
+**Creating a plugin** (see `examples/plugin/`):
+
+```ts
+// plugins/myplugin/index.ts - KEEP LIGHTWEIGHT
+import type { TPlugin } from '@/core/plugins'
+import type { TMyPluginExports } from './exports'
+
+const plugin: TPlugin<TMyPluginExports> = {
+  name: 'myplugin',
+
+  // App routes (registered at startup, components lazy-loaded)
+  routes: [
+    { path: '/myplugin', component: () => import('./pages/index') },
+  ],
+
+  // Modal routes
+  modalRoutes: [
+    { path: '/myplugin-modal', component: () => import('./modals/index') },
+  ],
+
+  // Setup phase: runs at startup before app mount
+  setup: async (ctx) => {
+    // Register global providers, init logic
+  },
+
+  // Heavy exports: lazy-loaded on first usePlugin() call
+  load: () => import('./exports').then(m => m.default),
+}
+
+export default plugin
+```
+
+```ts
+// plugins/myplugin/exports.ts - HEAVY CODE HERE
+import { markRaw } from 'vue'
+import MyComponent from './components/MyComponent'
+import { useMyFeature } from './composables/useMyFeature'
+
+export type TMyPluginExports = {
+  useMyFeature: typeof useMyFeature
+  MyComponent: typeof MyComponent
+}
+
+export default {
+  useMyFeature,
+  MyComponent: markRaw(MyComponent),  // Mark components with markRaw()
+} satisfies TMyPluginExports
+```
+
+**Using a plugin:**
+
+```tsx
+import { usePlugin } from '@/core/plugins'
+import type { TMyPluginExports } from '@/plugins/myplugin/exports'
+
+const { ready, data: plugin } = usePlugin<TMyPluginExports>('myplugin')
+
+// In render function:
+if (!ready.value || !plugin.value) {
+  return <Loading />
+}
+
+const feature = plugin.value.useMyFeature()
+return <plugin.value.MyComponent />
+```
+
+**Adding a new plugin:**
+1. Add entry to `plugins.config.ts`: `{ myplugin: { enabled: true } }`
+2. Create plugin at `src/plugins/myplugin/` (follow `examples/plugin/` structure)
+3. Add import to `src/plugins/index.ts`:
+   ```ts
+   if (__PLUGIN_MYPLUGIN_ENABLED__) {
+     const { default: plugin } = await import('./myplugin')
+     plugins.push(plugin)
+   }
+   ```
+4. Declare build flag in `src/vite-env.d.ts`:
+   ```ts
+   declare const __PLUGIN_MYPLUGIN_ENABLED__: boolean
+   ```
