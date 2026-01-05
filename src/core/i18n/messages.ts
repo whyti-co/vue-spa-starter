@@ -2,6 +2,7 @@ import { defineMessages } from '@formatjs/intl';
 
 export const messages = {
 	actions: defineMessages({
+		agree: { id: 'actions.agree', defaultMessage: 'I Agree' },
 		cancel: { id: 'actions.cancel', defaultMessage: 'Cancel' },
 		continue: { id: 'actions.continue', defaultMessage: 'Continue' },
 		back: { id: 'actions.back', defaultMessage: 'Back' },
@@ -50,6 +51,11 @@ export const messages = {
 			},
 			darkMode: { id: 'pages.settings.darkMode', defaultMessage: 'Dark Mode' },
 			language: { id: 'pages.settings.language', defaultMessage: 'Language' },
+			legal: { id: 'pages.settings.legal', defaultMessage: 'Legal' },
+			termsOfService: {
+				id: 'pages.settings.termsOfService',
+				defaultMessage: 'Terms of Service',
+			},
 		}),
 		notFound: defineMessages({
 			title: { id: 'pages.notFound.title', defaultMessage: 'Page not found' },

@@ -1,4 +1,5 @@
 {
+	"actions.agree": "I Agree",
 	"actions.back": "Back",
 	"actions.cancel": "Cancel",
 	"actions.close": "Close",
@@ -9,7 +10,9 @@
 	"actions.save": "Save",
 	"actions.submit": "Submit",
 	"auth.email": "Email",
-	"auth.loginFailed": "Login failed",
+	"auth.error.invalidCredentials": "Invalid email or password",
+	"auth.error.networkError": "Network error. Please try again.",
+	"auth.error.unknown": "Login failed",
 	"auth.password": "Password",
 	"auth.signIn": "Sign In",
 	"auth.signOut": "Sign Out",
@@ -45,5 +48,7 @@
 	"pages.settings.appearance": "Appearance",
 	"pages.settings.darkMode": "Dark Mode",
 	"pages.settings.language": "Language",
+	"pages.settings.legal": "Legal",
+	"pages.settings.termsOfService": "Terms of Service",
 	"pages.settings.title": "Settings"
 }

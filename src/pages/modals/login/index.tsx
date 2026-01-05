@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 import LockIcon from '@/assets/icons/lock.svg?component';
 import { messages, useI18n } from '@/core/i18n';
-import { useModal } from '@/core/modal';
+import { modalRouter, useModal } from '@/core/modal';
 import { LoginForm } from '@/domains/auth';
 
 export default defineComponent({
@@ -28,6 +28,16 @@ export default defineComponent({
 					</p>
 				</div>
 				<LoginForm onSuccess={handleSuccess} />
+				<p class="text-center text-sm text-base-content/60">
+					By signing in, you agree to our{' '}
+					<button
+						type="button"
+						class="link link-primary"
+						onClick={() => modalRouter.push('/tos')}
+					>
+						Terms of Service
+					</button>
+				</p>
 			</div>
 		);
 	},
