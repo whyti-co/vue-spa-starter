@@ -77,6 +77,7 @@ docs: add modal system documentation
 - **Vue Router** for routing with lazy-loaded pages
 - **FormatJS** for i18n with ICU message syntax and lazy-loaded locales
 - **Pinia** for state management with optional localStorage persistence
+- **VueUse** for reactive utilities (useMediaQuery, etc.)
 - **vite-svg-loader** for importing SVGs as Vue components
 
 ## Project Structure
@@ -307,20 +308,38 @@ close()                   // guard fails, redirects
 
 ### Modal System
 
-Second Vue Router instance for complex modal flows with dynamic step management.
+Second Vue Router instance for complex modal flows with dynamic step management. **Responsive by default**: modals appear as centered dialogs on desktop (>=768px) and bottom drawers on mobile (<768px).
 
 ```
 core/
 ├── composables/useQueue.ts  # Generic reactive queue
 └── modal/
-    ├── index.ts             # modalRouter, useModal, steps
+    ├── index.ts             # modalRouter, useModal, steps, isDrawerMode, isDialogMode
     ├── routes.ts            # Modal route definitions
     └── ModalRouterView.tsx  # Custom view for modal router
 
 components/
 ├── Modal.tsx                # Simple DaisyUI dialog (reusable)
 ├── Stepper.tsx              # Generic stepper component
-└── layouts/ModalDefaultLayout.tsx
+└── layouts/
+    ├── ModalDefaultLayout.tsx  # Modal content wrapper with stepper
+    └── Dock.tsx                # Handles drawer mode on mobile
+```
+
+**Responsive behavior:**
+- Desktop (>=768px): Centered dialog modal with backdrop
+- Mobile (<768px): Bottom drawer that slides up from dock with blur overlay
+
+```tsx
+import { isDrawerMode, isDialogMode, useModal } from '@/core/modal'
+
+// Check current mode
+if (isDrawerMode.value) {
+  // Mobile: drawer is open
+}
+if (isDialogMode.value) {
+  // Desktop: dialog is open
+}
 ```
 
 **Simple modal** (no routing):
@@ -338,14 +357,14 @@ import Modal from '@/components/Modal'
 ```tsx
 import { steps, useModal } from '@/core/modal'
 
-const { open } = useModal()
+const { open, close } = useModal()
 
 // Set steps and open
 steps.set([
-  { id: 'info', path: '/verify/step1', label: 'Info' },
-  { id: 'docs', path: '/verify/step2', label: 'Docs' },
+  { id: 'info', path: '/verify-identity/step1', label: 'Info' },
+  { id: 'docs', path: '/verify-identity/step2', label: 'Docs' },
 ])
-const result = await open<{ success: boolean }>('/verify/step1')
+const result = await open<{ success: boolean }>('/verify-identity/step1')
 
 // In step components
 steps.next()                    // Navigate forward
