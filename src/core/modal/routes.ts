@@ -13,7 +13,7 @@ export const modalRoutes: RouteRecordRaw[] = [
 	{
 		path: '/verify-identity',
 		children: [
-			{ path: '', redirect: 'step1' },
+			{ path: '', redirect: '/verify-identity/step1' },
 			{
 				path: 'step1',
 				component: () => import('@/pages/modals/verify-identity/step1'),
