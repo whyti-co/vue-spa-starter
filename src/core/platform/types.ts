@@ -40,7 +40,10 @@ export type TBiometryType = 'fingerprint' | 'face' | 'iris' | 'unknown';
 export type TBiometry = {
 	available: boolean;
 	type: TBiometryType | null;
+	accessGranted: boolean;
+	requestAccess: (reason?: string) => Promise<boolean>;
 	authenticate: (reason?: string) => Promise<boolean>;
+	openSettings: () => void;
 };
 
 // Theme sync API

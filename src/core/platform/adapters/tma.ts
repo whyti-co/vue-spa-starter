@@ -1,55 +1,24 @@
+import { watch } from 'vue';
+import { getColorScheme } from '@/utils';
 import { EPlatform, type THapticsStyle, type TPlatformAdapter } from '../types';
+import {
+	authenticateWithBiometry,
+	expand,
+	hapticFeedback,
+	initTMA,
+	openBiometrySettings,
+	requestBiometryAccess,
+	requestBiometryInfo,
+	setBackgroundColor,
+	setHeaderColor,
+	state,
+	subscribe,
+} from './tma-bridge';
 
-// Telegram WebApp SDK types
-type TTelegramHapticStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
-type TTelegramNotificationType = 'error' | 'success' | 'warning';
-type TTelegramBiometricType = 'finger' | 'face' | 'unknown';
-
-declare const Telegram: {
-	WebApp: {
-		ready: () => void;
-		expand: () => void;
-		close: () => void;
-		enableClosingConfirmation: () => void;
-		disableClosingConfirmation: () => void;
-		isExpanded: boolean;
-		viewportHeight: number;
-		viewportStableHeight: number;
-		HapticFeedback: {
-			impactOccurred: (style: TTelegramHapticStyle) => void;
-			notificationOccurred: (type: TTelegramNotificationType) => void;
-			selectionChanged: () => void;
-		};
-		BiometricManager: {
-			isInited: boolean;
-			isBiometricAvailable: boolean;
-			biometricType: TTelegramBiometricType;
-			init: (callback?: () => void) => void;
-			authenticate: (
-				params: { reason?: string },
-				callback: (success: boolean, token?: string) => void,
-			) => void;
-		};
-		themeParams: {
-			bg_color?: string;
-			text_color?: string;
-			hint_color?: string;
-			link_color?: string;
-			button_color?: string;
-			button_text_color?: string;
-			secondary_bg_color?: string;
-		};
-		colorScheme: 'light' | 'dark';
-		onEvent: (event: string, callback: () => void) => void;
-		offEvent: (event: string, callback: () => void) => void;
-		setHeaderColor: (color: 'bg_color' | 'secondary_bg_color' | string) => void;
-		setBackgroundColor: (
-			color: 'bg_color' | 'secondary_bg_color' | string,
-		) => void;
-	};
-};
-
-const hapticStyleMap: Record<THapticsStyle, TTelegramHapticStyle> = {
+const hapticStyleMap: Record<
+	THapticsStyle,
+	'light' | 'medium' | 'heavy' | 'rigid' | 'soft'
+> = {
 	light: 'light',
 	medium: 'medium',
 	heavy: 'heavy',
@@ -61,6 +30,7 @@ const hapticStyleMap: Record<THapticsStyle, TTelegramHapticStyle> = {
 // Mutable state for biometry (updated during init)
 let biometryAvailable = false;
 let biometryType: 'fingerprint' | 'face' | 'unknown' | null = null;
+let biometryAccessGranted = false;
 
 const adapter: TPlatformAdapter = {
 	id: EPlatform.TMA,
@@ -77,13 +47,13 @@ const adapter: TPlatformAdapter = {
 	haptics: {
 		available: true,
 		impact: (style = 'medium') => {
-			Telegram.WebApp.HapticFeedback.impactOccurred(hapticStyleMap[style]);
+			hapticFeedback('impact', hapticStyleMap[style]);
 		},
 		notification: (type) => {
-			Telegram.WebApp.HapticFeedback.notificationOccurred(type);
+			hapticFeedback('notification', type);
 		},
 		selectionChanged: () => {
-			Telegram.WebApp.HapticFeedback.selectionChanged();
+			hapticFeedback('selection_change');
 		},
 	},
 
@@ -94,53 +64,85 @@ const adapter: TPlatformAdapter = {
 		get type() {
 			return biometryType;
 		},
+		get accessGranted() {
+			return biometryAccessGranted;
+		},
+		requestAccess: async (reason) => {
+			const granted = await requestBiometryAccess(reason);
+			biometryAccessGranted = granted;
+			return granted;
+		},
 		authenticate: async (reason) => {
-			return new Promise((resolve) => {
-				Telegram.WebApp.BiometricManager.authenticate({ reason }, (success) =>
-					resolve(success),
-				);
-			});
+			const result = await authenticateWithBiometry(reason);
+			return result.success;
+		},
+		openSettings: () => {
+			openBiometrySettings();
 		},
 	},
 
 	themeSync: {
 		available: true,
 		subscribe: (callback) => {
-			const handler = () => callback(Telegram.WebApp.colorScheme);
-			Telegram.WebApp.onEvent('themeChanged', handler);
-			// Initial call
-			callback(Telegram.WebApp.colorScheme);
-			return () => Telegram.WebApp.offEvent('themeChanged', handler);
+			// Watch reactive state for theme changes
+			const stopWatch = watch(
+				state.themeParams,
+				() => {
+					const bgColor = state.themeParams.value.bg_color;
+					if (bgColor) {
+						callback(getColorScheme(bgColor));
+					}
+				},
+				{ immediate: true },
+			);
+
+			// Also subscribe to theme_changed event for immediate updates
+			const unsubscribe = subscribe('theme_changed', () => {
+				const bgColor = state.themeParams.value.bg_color;
+				if (bgColor) {
+					callback(getColorScheme(bgColor));
+				}
+			});
+
+			return () => {
+				stopWatch();
+				unsubscribe();
+			};
 		},
-		setHeaderColor: (color) => Telegram.WebApp.setHeaderColor(color),
-		setBackgroundColor: (color) => Telegram.WebApp.setBackgroundColor(color),
+		setHeaderColor: (color) => setHeaderColor(color),
+		setBackgroundColor: (color) => setBackgroundColor(color),
 	},
 
 	init: async () => {
-		Telegram.WebApp.ready();
-		Telegram.WebApp.expand();
+		// Initialize our TMA bridge
+		initTMA();
 
-		// Initialize biometry
-		await new Promise<void>((resolve) => {
-			Telegram.WebApp.BiometricManager.init(() => {
-				biometryAvailable =
-					Telegram.WebApp.BiometricManager.isBiometricAvailable;
-				const tgType = Telegram.WebApp.BiometricManager.biometricType;
-				biometryType =
-					tgType === 'finger'
-						? 'fingerprint'
-						: tgType === 'face'
-							? 'face'
-							: tgType === 'unknown'
-								? 'unknown'
-								: null;
-				resolve();
-			});
-		});
+		// Expand the app
+		expand();
+
+		// Request and wait for biometry info
+		try {
+			const bioInfo = await requestBiometryInfo();
+			biometryAvailable = bioInfo.available;
+			biometryAccessGranted = bioInfo.access_granted ?? false;
+			biometryType =
+				bioInfo.type === 'finger'
+					? 'fingerprint'
+					: bioInfo.type === 'face'
+						? 'face'
+						: bioInfo.type
+							? 'unknown'
+							: null;
+		} catch {
+			// Biometry not available or timed out
+			biometryAvailable = false;
+			biometryAccessGranted = false;
+			biometryType = null;
+		}
 	},
 
 	destroy: () => {
-		// Cleanup if needed
+		// Cleanup handled by Vue's watch/reactive system
 	},
 };
 

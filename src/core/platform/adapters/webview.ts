@@ -23,7 +23,10 @@ const adapter: TPlatformAdapter = {
 	biometry: {
 		available: false,
 		type: null,
+		accessGranted: false,
+		requestAccess: async () => false,
 		authenticate: async () => false,
+		openSettings: () => {},
 	},
 
 	themeSync: {

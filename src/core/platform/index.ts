@@ -41,7 +41,10 @@ const noopHaptics: THaptics = {
 const noopBiometry: TBiometry = {
 	available: false,
 	type: null,
+	accessGranted: false,
+	requestAccess: async () => false,
 	authenticate: async () => false,
+	openSettings: () => {},
 };
 
 /**
