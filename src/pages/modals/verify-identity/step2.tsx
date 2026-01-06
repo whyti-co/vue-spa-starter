@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
 import DocumentIcon from '@/assets/icons/document.svg?component';
 import UploadIcon from '@/assets/icons/upload.svg?component';
+import ModalWrapper from '@/components/ModalWrapper';
 import { messages, useI18n } from '@/core/i18n';
 import { steps, useModal } from '@/core/modal';
 import { useSession } from '@/core/session';
@@ -26,7 +27,7 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="space-y-6">
+			<ModalWrapper>
 				<div class="text-center">
 					<div class="flex justify-center mb-4">
 						<div class="bg-primary/10 p-4 rounded-full">
@@ -40,7 +41,6 @@ export default defineComponent({
 						{t(messages.modals.verifyIdentity.documentUploadDescription)}
 					</p>
 				</div>
-
 				<div class="border-2 border-dashed border-base-300 rounded-xl p-8 text-center cursor-pointer hover:border-primary hover:bg-base-200 transition-colors">
 					<UploadIcon class="h-10 w-10 mx-auto text-base-content/40 mb-3" />
 					<p class="font-medium">
@@ -50,7 +50,6 @@ export default defineComponent({
 						{t(messages.modals.verifyIdentity.fileLimit)}
 					</p>
 				</div>
-
 				<div class="modal-action">
 					<button class="btn btn-ghost" onClick={handleBack}>
 						{t(messages.actions.back)}
@@ -59,7 +58,7 @@ export default defineComponent({
 						{t(messages.actions.complete)}
 					</button>
 				</div>
-			</div>
+			</ModalWrapper>
 		);
 	},
 });

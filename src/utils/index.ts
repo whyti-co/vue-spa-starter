@@ -3,8 +3,8 @@
  */
 
 export {
-	getDaisyUIColors,
 	getColorScheme,
+	getDaisyUIColors,
 	isDarkColor,
 	isLightColor,
 	type TDaisyUIColors,

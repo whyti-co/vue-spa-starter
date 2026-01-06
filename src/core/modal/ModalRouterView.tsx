@@ -21,7 +21,9 @@ export default defineComponent({
 
 		return () => {
 			const content = component.value
-				? h('div', { key: routeKey.value }, [h(component.value as any)])
+				? h('div', { key: routeKey.value, class: 'modal-layout-content' }, [
+						h(component.value as any),
+					])
 				: null;
 
 			if (props.transition) {

@@ -85,7 +85,8 @@ docs: add modal system documentation
 ```
 src/
 ├── assets/
-│   └── icons/           # SVG icons (imported as Vue components)
+│   ├── icons/           # SVG icons (imported as Vue components)
+│   └── styles/          # CSS files (themes, transitions, components, dock)
 ├── components/
 │   └── layouts/         # Layout components (DefaultLayout, Dock, etc.)
 ├── core/                # App-wide setup (router, i18n, composables)
@@ -113,8 +114,7 @@ src/
 │   └── tma/             # Telegram Mini App platform plugin
 ├── utils/               # Generic utility functions
 ├── App.tsx
-├── main.ts
-└── style.css
+└── main.ts
 
 examples/                # Reference implementations (including plugin example)
 scripts/                 # Helper scripts (i18n, etc.)
@@ -323,6 +323,7 @@ core/
 
 components/
 ├── Modal.tsx                # Simple DaisyUI dialog (reusable)
+├── ModalWrapper.tsx         # Modal page content wrapper (centering, fill mode)
 ├── Stepper.tsx              # Generic stepper component
 └── layouts/
     ├── ModalDefaultLayout.tsx  # Modal content wrapper with stepper
@@ -375,6 +376,42 @@ steps.prev()                    // Navigate back
 steps.insert(step, 'afterId')   // Add dynamic step
 steps.remove('id')              // Remove step
 close({ success: true })        // Close with result
+```
+
+**Modal page structure** with `ModalWrapper`:
+
+All modal pages should use `ModalWrapper` for consistent layout. Content is centered by default; use `fill` prop for full-height content.
+
+```tsx
+import ModalWrapper from '@/components/ModalWrapper'
+import { useModal } from '@/core/modal'
+
+// Default - content centered vertically
+<ModalWrapper>
+  <h2>Title</h2>
+  <p>Small content is centered</p>
+  <button onClick={close}>Close</button>
+</ModalWrapper>
+
+// Full height - content fills available space
+<ModalWrapper fill>
+  <div>Header</div>
+  <div class="flex-1">Expandable content</div>
+  <button class="mt-auto">Sticky footer button</button>
+</ModalWrapper>
+```
+
+**Accessing route params** in modal pages:
+
+Modal pages use a separate router instance. Use `modalRouter.currentRoute` instead of `useRoute()`:
+
+```tsx
+import { modalRouter, useModal } from '@/core/modal'
+
+const post = computed(() => {
+  const id = modalRouter.currentRoute.value.params.id as string
+  return getPostById(id)
+})
 ```
 
 ### Theme System

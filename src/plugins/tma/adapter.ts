@@ -2,8 +2,8 @@ import { watch } from 'vue';
 import {
 	EPlatform,
 	type THapticsStyle,
-	type TThemeColors,
 	type TPlatformAdapter,
+	type TThemeColors,
 } from '@/core/platform/types';
 import { getColorScheme } from '@/utils';
 import {

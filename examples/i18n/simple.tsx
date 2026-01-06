@@ -42,8 +42,8 @@ export default defineComponent({
 			<>
 				<div class="card bg-base-200 p-4">
 					<p class="text-sm text-base-content/70">
-						Uses <code class="badge badge-sm">@formatjs/intl</code> directly with
-						inline message definitions. Good for standalone components.
+						Uses <code class="badge badge-sm">@formatjs/intl</code> directly
+						with inline message definitions. Good for standalone components.
 					</p>
 				</div>
 				<div class="card bg-base-200 p-4">

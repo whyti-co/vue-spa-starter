@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+import ModalWrapper from '@/components/ModalWrapper';
 import { messages, useI18n } from '@/core/i18n';
 import { modalRouter } from '@/core/modal';
 
@@ -8,7 +9,7 @@ export default defineComponent({
 		const { t } = useI18n();
 
 		return () => (
-			<>
+			<ModalWrapper>
 				<div class="prose prose-sm max-w-none">
 					<h2>Terms of Service</h2>
 					<p>Last updated: January 2025</p>
@@ -87,7 +88,7 @@ export default defineComponent({
 						{t(messages.actions.agree)}
 					</button>
 				</div>
-			</>
+			</ModalWrapper>
 		);
 	},
 });

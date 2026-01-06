@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import LockIcon from '@/assets/icons/lock.svg?component';
+import ModalWrapper from '@/components/ModalWrapper';
 import { messages, useI18n } from '@/core/i18n';
 import { modalRouter, useModal } from '@/core/modal';
 import { LoginForm } from '@/domains/auth';
@@ -15,7 +16,7 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="space-y-6">
+			<ModalWrapper>
 				<div class="text-center">
 					<div class="flex justify-center mb-4">
 						<div class="bg-primary/10 p-4 rounded-full">
@@ -38,7 +39,7 @@ export default defineComponent({
 						Terms of Service
 					</button>
 				</p>
-			</div>
+			</ModalWrapper>
 		);
 	},
 });

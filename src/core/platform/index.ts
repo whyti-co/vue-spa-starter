@@ -6,9 +6,9 @@ import {
 	EPlatform,
 	type TBiometry,
 	type THaptics,
-	type TThemeColors,
 	type TPlatformAdapter,
 	type TPlatformCapabilities,
+	type TThemeColors,
 } from './types';
 
 export type {

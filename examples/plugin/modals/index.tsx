@@ -1,4 +1,5 @@
 import { defineComponent, ref } from 'vue';
+import ModalWrapper from '@/components/ModalWrapper';
 import { useModal } from '@/core/modal';
 
 export default defineComponent({
@@ -16,14 +17,13 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="space-y-6">
+			<ModalWrapper>
 				<div class="text-center">
 					<h2 class="text-2xl font-bold">Example Plugin Modal</h2>
 					<p class="text-base-content/70 mt-2">
 						This modal is contributed by the example plugin.
 					</p>
 				</div>
-
 				<div class="form-control">
 					<label class="label">
 						<span class="label-text">Message</span>
@@ -36,11 +36,10 @@ export default defineComponent({
 						onInput={handleInput}
 					/>
 				</div>
-
 				<button class="btn btn-primary w-full" onClick={handleSubmit}>
 					Submit
 				</button>
-			</div>
+			</ModalWrapper>
 		);
 	},
 });

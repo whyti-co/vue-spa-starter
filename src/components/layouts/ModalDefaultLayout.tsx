@@ -15,7 +15,7 @@ export default defineComponent({
 						/>
 					)}
 				</Transition>
-				<div class="modal-layout-content">{slots.default?.()}</div>
+				{slots.default?.()}
 			</div>
 		);
 	},

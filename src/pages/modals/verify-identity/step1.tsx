@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import UserIcon from '@/assets/icons/user.svg?component';
+import ModalWrapper from '@/components/ModalWrapper';
 import { messages, useI18n } from '@/core/i18n';
 import { steps, useModal } from '@/core/modal';
 
@@ -18,7 +19,7 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="space-y-6">
+			<ModalWrapper>
 				<div class="text-center">
 					<div class="flex justify-center mb-4">
 						<div class="bg-primary/10 p-4 rounded-full">
@@ -32,7 +33,6 @@ export default defineComponent({
 						{t(messages.modals.verifyIdentity.personalInfoDescription)}
 					</p>
 				</div>
-
 				<label class="floating-label">
 					<span>{t(messages.common.fullName)}</span>
 					<input
@@ -41,12 +41,10 @@ export default defineComponent({
 						class="input input-bordered"
 					/>
 				</label>
-
 				<label class="floating-label">
 					<span>{t(messages.modals.verifyIdentity.dateOfBirth)}</span>
 					<input type="date" placeholder=" " class="input input-bordered" />
 				</label>
-
 				<div class="modal-action">
 					<button class="btn btn-ghost" onClick={handleCancel}>
 						{t(messages.actions.cancel)}
@@ -55,7 +53,7 @@ export default defineComponent({
 						{t(messages.actions.continue)}
 					</button>
 				</div>
-			</div>
+			</ModalWrapper>
 		);
 	},
 });

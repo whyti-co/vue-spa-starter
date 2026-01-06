@@ -33,7 +33,13 @@
 		z-index: 70;
 		display: flex;
 		flex-direction: column;
-		background-color: var(--color-base-100);
+		background-color: color-mix(
+			in oklab,
+			var(--color-base-100) 70%,
+			transparent
+		);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 		border-radius: 0;
 		border-top: 0.5px solid
 			color-mix(in oklab, var(--color-base-content) 5%, transparent);
@@ -41,7 +47,8 @@
 		overflow: hidden;
 		transition:
 			height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-			border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.dock-container.slide-up-enter-active,
@@ -81,8 +88,22 @@
 	.dock-container.dock-drawer-open {
 		height: 70vh;
 		border-radius: 1.5rem 1.5rem 0 0;
-		box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+		background-color: color-mix(
+			in oklab,
+			var(--color-base-100) 80%,
+			transparent
+		);
+		box-shadow: 0 -8px 32px
+			color-mix(in oklab, var(--color-base-content) 12%, transparent);
 		overscroll-behavior: contain;
+	}
+
+	[data-theme="light"] .dock-container.dock-drawer-open {
+		background-color: color-mix(
+			in oklab,
+			var(--color-base-100) 90%,
+			transparent
+		);
 	}
 
 	.dock-drawer-content {
@@ -105,29 +126,15 @@
 		display: flex;
 		flex-direction: column;
 		padding: 1rem 0;
-		padding-bottom: calc(1rem + var(--safe-area-bottom, env(safe-area-inset-bottom)));
+		padding-bottom: calc(
+			1rem +
+			var(--safe-area-bottom, env(safe-area-inset-bottom))
+		);
 	}
 
-	.dock-drawer-page .modal-layout {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-		touch-action: pan-y;
-	}
-
+	.dock-drawer-page .modal-layout,
 	.dock-drawer-page .modal-layout-content {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
 		touch-action: pan-y;
-	}
-
-	.dock-drawer-page .modal-layout-content::before,
-	.dock-drawer-page .modal-layout-content::after {
-		content: "";
-		flex: 1;
 	}
 
 	.drawer-content-enter-active,
@@ -165,7 +172,10 @@
 		display: flex;
 		justify-content: space-around;
 		padding: 0.5rem 1rem;
-		padding-bottom: calc(0.5rem + var(--safe-area-bottom, env(safe-area-inset-bottom)));
+		padding-bottom: calc(
+			0.5rem +
+			var(--safe-area-bottom, env(safe-area-inset-bottom))
+		);
 		transition:
 			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
