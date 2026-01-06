@@ -110,6 +110,7 @@ src/
 │           ├── step1.tsx
 │           └── step2.tsx
 ├── plugins/             # App plugins (enabled via plugins.config.ts)
+├── utils/               # Generic utility functions
 ├── App.tsx
 ├── main.ts
 └── style.css
@@ -541,7 +542,8 @@ core/platform/
 └── adapters/
     ├── browser.ts       # Default fallback (noop implementations)
     ├── pwa.ts           # PWA with vibration API
-    ├── tma.ts           # Telegram Mini App SDK
+    ├── tma.ts           # Telegram Mini App adapter
+    ├── tma-bridge/      # Minimal TMA bridge using Vue reactivity
     └── webview.ts       # Generic webview bridge
 ```
 
