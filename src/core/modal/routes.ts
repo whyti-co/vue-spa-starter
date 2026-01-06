@@ -11,6 +11,10 @@ export const modalRoutes: RouteRecordRaw[] = [
 		component: () => import('@/pages/modals/tos'),
 	},
 	{
+		path: '/post/:id',
+		component: () => import('@/pages/modals/post'),
+	},
+	{
 		path: '/verify-identity',
 		children: [
 			{ path: '', redirect: '/verify-identity/step1' },
