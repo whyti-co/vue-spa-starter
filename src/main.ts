@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import '@/style.css';
+import '@/assets/styles/index.css';
 import App from '@/App';
 import { setupPageTransition } from '@/core/composables/usePageTransition';
 import '@/core/composables/useTheme';

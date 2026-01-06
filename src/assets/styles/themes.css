@@ -1,0 +1,105 @@
+/* Telegram Mini App theme - uses --tg-theme-* variables injected by Telegram */
+@plugin "daisyui/theme" {
+	name: "tma";
+	default: false;
+	prefersdark: false;
+	color-scheme: "light dark";
+	--color-base-100: var(--tg-bg-color);
+	--color-base-200: var(--tg-section-bg-color);
+	--color-base-300: var(--tg-secondary-bg-color);
+	--color-base-content: var(--tg-text-color);
+	--color-primary: var(--tg-button-color);
+	--color-primary-content: var(--tg-button-text-color);
+	--color-secondary: var(--tg-hint-color);
+	--color-secondary-content: var(--tg-text-color);
+	--color-accent: var(--tg-accent-text-color, var(--tg-accent-text-color));
+	--color-accent-content: var(--tg-button-text-color);
+	--color-neutral: var(--tg-subtitle-text-color);
+	--color-neutral-content: var(--tg-subtitle-text-color);
+	--color-info: var(--tg-link-color);
+	--color-info-content: var(--tg-button-text-color);
+	--color-success: #31b545;
+	--color-success-content: #ffffff;
+	--color-warning: #ffc107;
+	--color-warning-content: #000000;
+	--color-error: var(--tg-destructive-text-color);
+	--color-error-content: #ffffff;
+	--radius-selector: 2rem;
+	--radius-field: 2rem;
+	--radius-box: 2rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
+@plugin "daisyui/theme" {
+	name: "light";
+	default: false;
+	prefersdark: false;
+	color-scheme: "light";
+	--color-base-100: oklch(100% 0 0);
+	--color-base-200: oklch(98% 0 0);
+	--color-base-300: oklch(95% 0 0);
+	--color-base-content: oklch(21% 0.006 285.885);
+	--color-primary: oklch(0% 0 0);
+	--color-primary-content: oklch(100% 0 0);
+	--color-secondary: oklch(70% 0.04 256.788);
+	--color-secondary-content: oklch(97% 0.014 254.604);
+	--color-accent: oklch(62% 0.214 259.815);
+	--color-accent-content: oklch(100% 0 0);
+	--color-neutral: oklch(0% 0 0);
+	--color-neutral-content: oklch(92% 0.004 286.32);
+	--color-info: oklch(90% 0.058 230.902);
+	--color-info-content: oklch(29% 0.066 243.157);
+	--color-success: oklch(90% 0.093 164.15);
+	--color-success-content: oklch(37% 0.077 168.94);
+	--color-warning: oklch(90% 0.076 70.697);
+	--color-warning-content: oklch(41% 0.112 45.904);
+	--color-error: oklch(89% 0.058 10.001);
+	--color-error-content: oklch(27% 0.105 12.094);
+	--radius-selector: 2rem;
+	--radius-field: 2rem;
+	--radius-box: 2rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
+@plugin "daisyui/theme" {
+	name: "dark";
+	default: false;
+	prefersdark: true;
+	color-scheme: "dark";
+	--color-base-100: oklch(0% 0 0);
+	--color-base-200: oklch(15% 0 0);
+	--color-base-300: oklch(23% 0 0);
+	--color-base-content: oklch(90% 0 0);
+	--color-primary: oklch(63% 0.21 10);
+	--color-primary-content: oklch(100% 0 0);
+	--color-secondary: oklch(40% 0.14 10);
+	--color-secondary-content: oklch(95% 0 0);
+	--color-accent: oklch(60% 0.16 5);
+	--color-accent-content: oklch(0% 0 0);
+	--color-neutral: oklch(32% 0 0);
+	--color-neutral-content: oklch(85% 0 0);
+	--color-info: oklch(65% 0.15 250);
+	--color-info-content: oklch(100% 0 0);
+	--color-success: oklch(65% 0.18 150);
+	--color-success-content: oklch(100% 0 0);
+	--color-warning: oklch(75% 0.15 85);
+	--color-warning-content: oklch(0% 0 0);
+	--color-error: oklch(60% 0.2 25);
+	--color-error-content: oklch(100% 0 0);
+	--radius-selector: 2rem;
+	--radius-field: 2rem;
+	--radius-box: 2rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}

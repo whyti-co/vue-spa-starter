@@ -1,0 +1,77 @@
+@layer base {
+	*:not([class*="enter"]):not([class*="leave"]),
+	*:not([class*="enter"]):not([class*="leave"])::before,
+	*:not([class*="enter"]):not([class*="leave"])::after {
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
+	}
+}
+
+@layer components {
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.15s ease;
+	}
+
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
+	}
+
+	.slide-down-enter-active,
+	.slide-down-leave-active {
+		transition:
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		will-change: transform, opacity;
+	}
+
+	.slide-down-enter-from,
+	.slide-down-leave-to {
+		transform: translate3d(0, -100%, 0);
+		opacity: 0;
+	}
+
+	.slide-up-enter-active,
+	.slide-up-leave-active {
+		transition:
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		will-change: transform, opacity;
+	}
+
+	.slide-up-enter-from,
+	.slide-up-leave-to {
+		transform: translate3d(0, 100%, 0);
+		opacity: 0;
+	}
+
+	/* Carousel page transitions */
+	.slide-left-enter-active,
+	.slide-left-leave-active,
+	.slide-right-enter-active,
+	.slide-right-leave-active {
+		transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+		will-change: transform;
+	}
+
+	/* Slide left: new page enters from right, old exits to left */
+	.slide-left-enter-from {
+		transform: translate3d(100vw, 0, 0);
+	}
+
+	.slide-left-leave-to {
+		transform: translate3d(-100vw, 0, 0);
+	}
+
+	/* Slide right: new page enters from left, old exits to right */
+	.slide-right-enter-from {
+		transform: translate3d(-100vw, 0, 0);
+	}
+
+	.slide-right-leave-to {
+		transform: translate3d(100vw, 0, 0);
+	}
+}

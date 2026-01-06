@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@import "./themes.css";
+@import "./transitions.css";
+@import "./components.css";
+@import "./dock.css";
