@@ -1,32 +1,23 @@
-/**
- * Layout System Example
- *
- * The PageWrapper component controls the DefaultLayout's TopBar and Dock.
- * Every page should wrap its content in PageWrapper with layout config as props.
- *
- * PageWrapper does two things:
- * 1. Updates shared layout state for TopBar/Dock visibility
- * 2. Applies its own padding based on topBar/dock visibility (isolated per page)
- */
-
 import { defineComponent, ref } from 'vue';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg?component';
 import CogIcon from '@/assets/icons/cog.svg?component';
 import HomeIcon from '@/assets/icons/home.svg?component';
-import { TopBarTitle } from '@/components/layouts';
-import PageWrapper from '@/components/PageWrapper';
 
 // Example 1: Default layout (topBar hidden, dock visible)
 export const DefaultLayoutExample = defineComponent({
 	name: 'DefaultLayoutExample',
 	setup() {
 		return () => (
-			<PageWrapper>
-				<div>
-					<h2 class="text-xl font-bold">Default Layout</h2>
-					<p>TopBar: hidden, Dock: visible</p>
-				</div>
-			</PageWrapper>
+			<div class="space-y-3">
+				<p class="text-sm text-base-content/70">
+					No layout prop needed. TopBar hidden, Dock visible.
+				</p>
+				<pre class="bg-base-300 p-3 rounded-xl text-xs overflow-x-auto">
+					{`<PageWrapper>
+  {/* content */}
+</PageWrapper>`}
+				</pre>
+			</div>
 		);
 	},
 });
@@ -36,22 +27,28 @@ export const TopBarWithTitleExample = defineComponent({
 	name: 'TopBarWithTitleExample',
 	setup() {
 		return () => (
-			<PageWrapper
-				layout={{
-					topBar: {
-						visible: true,
-						title: () => <TopBarTitle title="Page Title" />,
-						left: { icon: ArrowLeftIcon, to: '/previous-page' },
-						right: { icon: CogIcon, to: '/settings' },
-					},
-				}}
-			>
-				<div>
-					<p>Title: "Page Title" (centered)</p>
-					<p>Left: back arrow → /previous-page</p>
-					<p>Right: cog → /settings</p>
+			<div class="space-y-3">
+				<div class="flex items-center gap-2 text-sm">
+					<ArrowLeftIcon class="h-4 w-4" />
+					<span class="flex-1 text-center font-semibold">Page Title</span>
+					<CogIcon class="h-4 w-4" />
 				</div>
-			</PageWrapper>
+				<p class="text-sm text-base-content/70">
+					TopBar with centered title and navigation icons.
+				</p>
+				<pre class="bg-base-300 p-3 rounded-xl text-xs overflow-x-auto">
+					{`<PageWrapper
+  layout={{
+    topBar: {
+      visible: true,
+      title: () => <TopBarTitle title="Page Title" />,
+      left: { icon: ArrowLeftIcon, to: '/back' },
+      right: { icon: CogIcon, to: '/settings' },
+    },
+  }}
+/>`}
+				</pre>
+			</div>
 		);
 	},
 });
@@ -63,31 +60,32 @@ export const TopBarOnClickExample = defineComponent({
 		const count = ref(0);
 
 		return () => (
-			<PageWrapper
-				layout={{
-					topBar: {
-						visible: true,
-						left: {
-							icon: ArrowLeftIcon,
-							onClick: () => {
-								count.value--;
-							},
-						},
-						right: {
-							icon: HomeIcon,
-							onClick: () => {
-								count.value++;
-							},
-						},
-					},
-				}}
-			>
-				<div>
-					<h2 class="text-xl font-bold">TopBar with onClick</h2>
-					<p>Left: decrement, Right: increment</p>
-					<p class="text-2xl mt-4">Count: {count.value}</p>
+			<div class="space-y-3">
+				<div class="flex items-center gap-2">
+					<button
+						class="btn btn-ghost btn-sm btn-square"
+						onClick={() => count.value--}
+					>
+						<ArrowLeftIcon class="h-4 w-4" />
+					</button>
+					<span class="flex-1 text-center text-2xl font-bold">
+						{count.value}
+					</span>
+					<button
+						class="btn btn-ghost btn-sm btn-square"
+						onClick={() => count.value++}
+					>
+						<HomeIcon class="h-4 w-4" />
+					</button>
 				</div>
-			</PageWrapper>
+				<p class="text-sm text-base-content/70">
+					Use onClick instead of to for custom handlers.
+				</p>
+				<pre class="bg-base-300 p-3 rounded-xl text-xs overflow-x-auto">
+					{`left: { icon: ArrowLeftIcon, onClick: () => ... }
+right: { icon: HomeIcon, onClick: () => ... }`}
+				</pre>
+			</div>
 		);
 	},
 });
@@ -97,54 +95,19 @@ export const HiddenDockExample = defineComponent({
 	name: 'HiddenDockExample',
 	setup() {
 		return () => (
-			<PageWrapper
-				layout={{
-					topBar: { visible: true, left: { icon: ArrowLeftIcon, to: '/' } },
-					dock: { visible: false },
-				}}
-			>
-				<div>
-					<h2 class="text-xl font-bold">Hidden Dock</h2>
-					<p>TopBar: visible with back button</p>
-					<p>Dock: hidden</p>
-				</div>
-			</PageWrapper>
+			<div class="space-y-3">
+				<p class="text-sm text-base-content/70">
+					Hide the dock for settings or modal-like pages.
+				</p>
+				<pre class="bg-base-300 p-3 rounded-xl text-xs overflow-x-auto">
+					{`<PageWrapper
+  layout={{
+    topBar: { visible: true, ... },
+    dock: { visible: false },
+  }}
+/>`}
+				</pre>
+			</div>
 		);
 	},
 });
-
-// Usage in actual pages:
-//
-// // Home page - defaults (no topBar, dock visible)
-// <PageWrapper>
-//   <div class="columns-1 sm:columns-2">
-//     {/* content */}
-//   </div>
-// </PageWrapper>
-//
-// // Profile page - topBar with title and settings link
-// <PageWrapper
-//   layout={{
-//     topBar: {
-//       visible: true,
-//       title: () => <TopBarTitle title={t(messages.pages.profile.title)} />,
-//       left: { icon: CogIcon, to: '/profile/settings' },
-//     },
-//   }}
-// >
-//   {/* content */}
-// </PageWrapper>
-//
-// // Settings page - topBar with title, back button, no dock
-// <PageWrapper
-//   layout={{
-//     topBar: {
-//       visible: true,
-//       title: () => <TopBarTitle title={t(messages.pages.settings.title)} />,
-//       left: { icon: ArrowLeftIcon, to: '/profile' },
-//     },
-//     dock: { visible: false },
-//   }}
-// >
-//   {/* content */}
-// </PageWrapper>
