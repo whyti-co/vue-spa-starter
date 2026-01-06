@@ -23,17 +23,16 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="p-8 space-y-4">
-				<h1 class="text-2xl font-bold">Simple Modal</h1>
-
-				<button class="btn btn-primary" onClick={openModal}>
-					Open Modal
-				</button>
-
+			<>
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-3">Simple Modal</h2>
+					<button class="btn btn-primary btn-sm" onClick={openModal}>
+						Open Modal
+					</button>
+				</div>
 				{result.value && (
 					<div class="alert alert-success">Result: {result.value}</div>
 				)}
-
 				<Modal open={isOpen.value} onClose={() => closeModal()}>
 					<h2 class="text-xl font-bold mb-4">Modal Title</h2>
 					<p class="mb-4">This is a simple modal without routing.</p>
@@ -49,7 +48,7 @@ export default defineComponent({
 						</button>
 					</div>
 				</Modal>
-			</div>
+			</>
 		);
 	},
 });

@@ -161,13 +161,13 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="p-8 space-y-4">
-				<h1 class="text-2xl font-bold">Modal with Router</h1>
-
-				<button class="btn btn-primary" onClick={openWizard}>
-					Start Wizard
-				</button>
-
+			<>
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-3">Modal with Router</h2>
+					<button class="btn btn-primary btn-sm" onClick={openWizard}>
+						Start Wizard
+					</button>
+				</div>
 				{result.value && (
 					<div
 						class={[
@@ -178,7 +178,6 @@ export default defineComponent({
 						{result.value.success ? 'Completed successfully!' : 'Cancelled'}
 					</div>
 				)}
-
 				<Modal open={isOpen.value} onClose={() => closeModal()}>
 					{steps.items.value.length > 1 && (
 						<Stepper
@@ -194,7 +193,7 @@ export default defineComponent({
 							onComplete: () => closeModal(true),
 						})}
 				</Modal>
-			</div>
+			</>
 		);
 	},
 });

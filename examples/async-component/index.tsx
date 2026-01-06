@@ -10,8 +10,8 @@ export default defineComponent({
 	name: 'AsyncComponentExample',
 	setup() {
 		return () => (
-			<div class="p-4">
-				<h1 class="text-xl font-bold mb-4">Async Component Loading</h1>
+			<div class="card bg-base-200 p-4">
+				<h2 class="font-semibold mb-3">Async Component Loading</h2>
 				<Suspense>
 					{{
 						default: () => <AsyncButton />,

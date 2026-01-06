@@ -40,9 +40,7 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="space-y-6">
-				<h1 class="text-2xl font-bold">Responsive Drawer</h1>
-
+			<>
 				<div class="alert alert-info">
 					<div>
 						<p class="font-medium">
@@ -59,50 +57,46 @@ export default defineComponent({
 						</p>
 					</div>
 				</div>
-
-				<div class="space-y-3">
+				<div class="card bg-base-200 p-4 space-y-3">
 					<button class="btn btn-primary w-full" onClick={openLoginModal}>
 						Open Login Modal
 					</button>
-
 					<button class="btn btn-secondary w-full" onClick={openTosModal}>
 						Open Terms of Service
 					</button>
-
 					<button class="btn btn-accent w-full" onClick={openVerifyModal}>
 						Open Verification Wizard
 					</button>
 				</div>
-
 				{result.value && (
 					<div class="alert alert-success">
 						<span>{result.value}</span>
 					</div>
 				)}
-
-				<div class="divider">Features</div>
-
-				<ul class="list-disc list-inside space-y-2 text-base-content/80">
-					<li>
-						<strong>Drawer mode:</strong> Dock expands into bottom drawer with
-						overlay
-					</li>
-					<li>
-						<strong>Dialog mode:</strong> Centered modal with backdrop blur
-					</li>
-					<li>
-						<strong>Smooth transitions:</strong> Height, border-radius, and
-						content animations
-					</li>
-					<li>
-						<strong>Click overlay:</strong> Closes modal in both modes
-					</li>
-					<li>
-						<strong>Multi-step support:</strong> Stepper and page transitions
-						work in drawer
-					</li>
-				</ul>
-			</div>
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-3">Features</h2>
+					<ul class="list-disc list-inside space-y-2 text-sm text-base-content/80">
+						<li>
+							<strong>Drawer mode:</strong> Dock expands into bottom drawer with
+							overlay
+						</li>
+						<li>
+							<strong>Dialog mode:</strong> Centered modal with backdrop blur
+						</li>
+						<li>
+							<strong>Smooth transitions:</strong> Height, border-radius, and
+							content animations
+						</li>
+						<li>
+							<strong>Click overlay:</strong> Closes modal in both modes
+						</li>
+						<li>
+							<strong>Multi-step support:</strong> Stepper and page transitions
+							work in drawer
+						</li>
+					</ul>
+				</div>
+			</>
 		);
 	},
 });

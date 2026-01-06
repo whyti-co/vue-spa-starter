@@ -36,7 +36,7 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="p-4 space-y-4">
+			<>
 				<div class="card bg-base-200 p-4">
 					<h2 class="font-semibold mb-2">Platform Detection</h2>
 					<div class="space-y-1 text-sm">
@@ -137,7 +137,7 @@ export default defineComponent({
 						</button>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	},
 });

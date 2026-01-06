@@ -7,7 +7,7 @@ export default defineComponent({
 		const { mode, theme, setMode } = useTheme();
 
 		return () => (
-			<div class="p-4 space-y-6">
+			<>
 				<div class="card bg-base-200 p-4">
 					<h2 class="font-semibold mb-3">Theme Mode</h2>
 					<div class="flex flex-wrap gap-2">
@@ -25,7 +25,6 @@ export default defineComponent({
 						))}
 					</div>
 				</div>
-
 				<div class="card bg-base-200 p-4">
 					<h2 class="font-semibold mb-2">Current State</h2>
 					<div class="text-sm space-y-1">
@@ -38,14 +37,13 @@ export default defineComponent({
 						</p>
 					</div>
 				</div>
-
 				<div class="card bg-base-200 p-4">
 					<p class="text-sm text-base-content/70">
 						<strong>System</strong> uses platform theme (Telegram in TMA) or
 						browser preference. Theme choice is persisted to localStorage.
 					</p>
 				</div>
-			</div>
+			</>
 		);
 	},
 });

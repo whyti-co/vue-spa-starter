@@ -459,16 +459,14 @@ export default defineComponent({
 
 		if (!isTMA()) {
 			return () => (
-				<div class="p-4">
-					<div class="alert alert-warning">
-						This page is only available in Telegram Mini App environment.
-					</div>
+				<div class="alert alert-warning">
+					This page is only available in Telegram Mini App environment.
 				</div>
 			);
 		}
 
 		return () => (
-			<div class="p-4 space-y-4 pb-20">
+			<>
 				{/* User Info */}
 				<div class="card bg-base-200 p-4">
 					<h2 class="font-semibold mb-2">User & Environment</h2>
@@ -913,7 +911,7 @@ export default defineComponent({
 				</div>
 
 				{/* Log */}
-				<div class="card bg-base-300 p-4">
+				<div class="card bg-base-300 p-4 mb-16">
 					<h2 class="font-semibold mb-2">Log</h2>
 					<div class="text-xs font-mono space-y-1 max-h-40 overflow-y-auto">
 						{log.value.length === 0 ? (
@@ -923,7 +921,7 @@ export default defineComponent({
 						)}
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	},
 });
