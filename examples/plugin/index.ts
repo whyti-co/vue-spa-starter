@@ -52,6 +52,11 @@ const plugin: TPlugin<TExampleExports> = {
 			component: () => import('./pages/platform'),
 		},
 		{
+			path: '/examples/platform/tma',
+			name: 'examples-platform-tma',
+			component: () => import('./pages/tma'),
+		},
+		{
 			path: '/examples/plugins',
 			name: 'examples-plugins',
 			component: () => import('./pages/plugins'),
