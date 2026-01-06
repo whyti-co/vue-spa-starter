@@ -39,25 +39,31 @@ export default defineComponent({
 		};
 
 		return () => (
-			<div class="min-h-screen p-8">
-				<h1 class="text-2xl font-bold mb-4">Internationalization (vue-intl)</h1>
-
-				<div class="flex gap-2 mb-6">
-					{(Object.keys(messages) as Locale[]).map((loc) => (
-						<button
-							key={loc}
-							class={[
-								'btn',
-								locale.value === loc ? 'btn-primary' : 'btn-outline',
-							]}
-							onClick={() => setLocale(loc)}
-						>
-							{loc.toUpperCase()}
-						</button>
-					))}
+			<>
+				<div class="card bg-base-200 p-4">
+					<p class="text-sm text-base-content/70">
+						Uses <code class="badge badge-sm">@formatjs/intl</code> directly with
+						inline message definitions. Good for standalone components.
+					</p>
 				</div>
-
-				<div class="card bg-base-200 p-6 space-y-2">
+				<div class="card bg-base-200 p-4">
+					<h2 class="font-semibold mb-3">Locale Switcher</h2>
+					<div class="flex gap-2">
+						{(Object.keys(messages) as Locale[]).map((loc) => (
+							<button
+								key={loc}
+								class={[
+									'btn btn-sm',
+									locale.value === loc ? 'btn-primary' : 'btn-outline',
+								]}
+								onClick={() => setLocale(loc)}
+							>
+								{loc.toUpperCase()}
+							</button>
+						))}
+					</div>
+				</div>
+				<div class="card bg-base-200 p-4 space-y-2">
 					<p>
 						{intl.value.formatMessage({ id: 'greeting' }, { name: 'World' })}
 					</p>
@@ -69,7 +75,7 @@ export default defineComponent({
 						{intl.value.formatMessage({ id: 'today' }, { date: new Date() })}
 					</p>
 				</div>
-			</div>
+			</>
 		);
 	},
 });
