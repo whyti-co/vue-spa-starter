@@ -28,6 +28,7 @@
  */
 
 import { readonly, ref, shallowRef } from 'vue';
+import { syncSafeAreaToCSSVariables } from '@/utils';
 import {
 	getEnvironment,
 	initBridge,
@@ -130,6 +131,7 @@ const _viewportHeight = ref(0);
 const _viewportWidth = ref(0);
 const _viewportStable = ref(false);
 const _themeParams = shallowRef<TThemeParams>({});
+const _originalThemeParams = shallowRef<TThemeParams>({});
 const _safeArea = ref({ top: 0, bottom: 0, left: 0, right: 0 });
 const _contentSafeArea = ref({ top: 0, bottom: 0, left: 0, right: 0 });
 const _biometryInfo = shallowRef<TEventMap['biometry_info_received'] | null>(
@@ -157,6 +159,8 @@ export const state = {
 	viewportStable: readonly(_viewportStable),
 	/** Current theme parameters from Telegram */
 	themeParams: readonly(_themeParams),
+	/** Original theme parameters from Telegram (at initialization) */
+	originalThemeParams: readonly(_originalThemeParams),
 	/** Safe area insets (notch, home indicator, etc.) */
 	safeArea: readonly(_safeArea),
 	/** Content safe area insets */
@@ -195,6 +199,7 @@ export function initTMA(): boolean {
 	// Set initial state from launch params
 	if (launchParams) {
 		_themeParams.value = launchParams.themeParams;
+		_originalThemeParams.value = { ...launchParams.themeParams };
 		// Sync theme to CSS variables immediately
 		syncThemeToCSSVariables(launchParams.themeParams);
 	}
@@ -230,10 +235,12 @@ export function initTMA(): boolean {
 	// Subscribe to safe area changes
 	subscribe('safe_area_changed', (data) => {
 		_safeArea.value = data;
+		syncSafeAreaToCSSVariables(_safeArea.value, _contentSafeArea.value);
 	});
 
 	subscribe('content_safe_area_changed', (data) => {
 		_contentSafeArea.value = data;
+		syncSafeAreaToCSSVariables(_safeArea.value, _contentSafeArea.value);
 	});
 
 	// Subscribe to biometry info

@@ -50,3 +50,52 @@ export function isDarkColor(hex: string): boolean {
 export function getColorScheme(bgColor: string): 'light' | 'dark' {
 	return isLightColor(bgColor) ? 'light' : 'dark';
 }
+
+/**
+ * DaisyUI theme colors resolved from CSS variables.
+ */
+export type TDaisyUIColors = {
+	base100: string;
+	base200: string;
+	base300: string;
+	baseContent: string;
+	primary: string;
+	primaryContent: string;
+};
+
+function cssColorToHex(cssColor: string): string {
+	if (!cssColor) return '';
+
+	// Create element to resolve CSS variables
+	const el = document.createElement('div');
+	el.style.color = cssColor;
+	document.body.appendChild(el);
+	const computedColor = getComputedStyle(el).color;
+	el.remove();
+
+	// Use canvas to convert any color format (oklch, rgb, etc.) to RGB pixels
+	const canvas = document.createElement('canvas');
+	canvas.width = canvas.height = 1;
+	const ctx = canvas.getContext('2d');
+	if (!ctx) return cssColor;
+
+	ctx.fillStyle = computedColor;
+	ctx.fillRect(0, 0, 1, 1);
+	const data = ctx.getImageData(0, 0, 1, 1).data;
+	const r = data[0] ?? 0;
+	const g = data[1] ?? 0;
+	const b = data[2] ?? 0;
+
+	return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
+
+export function getDaisyUIColors(): TDaisyUIColors {
+	return {
+		base100: cssColorToHex('var(--color-base-100)'),
+		base200: cssColorToHex('var(--color-base-200)'),
+		base300: cssColorToHex('var(--color-base-300)'),
+		baseContent: cssColorToHex('var(--color-base-content)'),
+		primary: cssColorToHex('var(--color-primary)'),
+		primaryContent: cssColorToHex('var(--color-primary-content)'),
+	};
+}

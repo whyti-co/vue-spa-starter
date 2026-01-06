@@ -2,6 +2,7 @@ import { watch } from 'vue';
 import {
 	EPlatform,
 	type THapticsStyle,
+	type TThemeColors,
 	type TPlatformAdapter,
 } from '@/core/platform/types';
 import { getColorScheme } from '@/utils';
@@ -13,8 +14,11 @@ import {
 	openBiometrySettings,
 	requestBiometryAccess,
 	requestBiometryInfo,
+	requestFullscreen,
 	setBackgroundColor,
+	setBottomBarColor,
 	setHeaderColor,
+	setSwipeEnabled,
 	state,
 	subscribe,
 } from './bridge';
@@ -113,16 +117,35 @@ const adapter: TPlatformAdapter = {
 				unsubscribe();
 			};
 		},
-		setHeaderColor: (color) => setHeaderColor(color),
-		setBackgroundColor: (color) => setBackgroundColor(color),
+		updateTheme: (colors: TThemeColors) => {
+			if (colors.base100) {
+				setBackgroundColor(colors.base100);
+				setHeaderColor(colors.base100);
+				setBottomBarColor(colors.base100);
+			}
+		},
+		getOriginalColors: () => {
+			const original = state.originalThemeParams.value;
+			if (!original.bg_color) return undefined;
+			return {
+				base100: original.bg_color,
+				base200: original.header_bg_color ?? original.secondary_bg_color,
+				base300: original.secondary_bg_color,
+				baseContent: original.text_color,
+				primary: original.button_color,
+				primaryContent: original.button_text_color,
+			};
+		},
 	},
 
 	init: async () => {
 		// Initialize our TMA bridge
 		initTMA();
 
-		// Expand the app
+		// Expand the app and request fullscreen
 		expand();
+		requestFullscreen();
+		setSwipeEnabled(false);
 
 		// Request and wait for biometry info
 		try {

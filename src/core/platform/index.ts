@@ -1,10 +1,12 @@
 import { readonly, ref, shallowRef } from 'vue';
+import { getDaisyUIColors } from '@/utils';
 import { loadAdapter } from './adapters';
 import { detectPlatform } from './detection';
 import {
 	EPlatform,
 	type TBiometry,
 	type THaptics,
+	type TThemeColors,
 	type TPlatformAdapter,
 	type TPlatformCapabilities,
 } from './types';
@@ -61,6 +63,11 @@ export async function initPlatform(): Promise<void> {
 		adapter.value = loadedAdapter;
 		capabilities.value = loadedAdapter.capabilities;
 		ready.value = true;
+
+		// Sync platform theme after adapter is ready
+		requestAnimationFrame(() => {
+			useThemeSync().updatePlatformTheme();
+		});
 	} catch (error) {
 		console.error('Failed to initialize platform adapter:', error);
 		ready.value = true; // Still mark as ready, just with fallbacks
@@ -104,14 +111,19 @@ export function useThemeSync() {
 	if (!adapter.value?.themeSync.available) {
 		return {
 			available: false,
-			unsubscribe: () => {},
+			subscribe: () => () => {},
+			updatePlatformTheme: (_colors?: TThemeColors) => {},
+			getOriginalColors: () => undefined as TThemeColors | undefined,
 		};
 	}
 
 	return {
 		available: true,
 		subscribe: adapter.value.themeSync.subscribe,
-		setHeaderColor: adapter.value.themeSync.setHeaderColor,
-		setBackgroundColor: adapter.value.themeSync.setBackgroundColor,
+		updatePlatformTheme: (colors?: TThemeColors) => {
+			const themeColors = colors ?? getDaisyUIColors();
+			adapter.value?.themeSync.updateTheme(themeColors);
+		},
+		getOriginalColors: adapter.value.themeSync.getOriginalColors,
 	};
 }

@@ -45,12 +45,22 @@ export type TBiometry = {
 	openSettings: () => void;
 };
 
+// DaisyUI theme colors for platform sync
+export type TThemeColors = {
+	base100?: string; // Main background
+	base200?: string; // Secondary background (cards, header)
+	base300?: string; // Tertiary background
+	baseContent?: string; // Text color
+	primary?: string; // Primary accent
+	primaryContent?: string; // Text on primary
+};
+
 // Theme sync API
 export type TThemeSync = {
 	available: boolean;
 	subscribe: (callback: (theme: 'light' | 'dark') => void) => () => void;
-	setHeaderColor: (color: string) => void;
-	setBackgroundColor: (color: string) => void;
+	updateTheme: (colors: TThemeColors) => void;
+	getOriginalColors: () => TThemeColors | undefined;
 };
 
 // Platform adapter interface - each platform implements this

@@ -58,8 +58,8 @@ const adapter: TPlatformAdapter = {
 	themeSync: {
 		available: false,
 		subscribe: () => () => {},
-		setHeaderColor: () => {},
-		setBackgroundColor: () => {},
+		updateTheme: () => {},
+		getOriginalColors: () => undefined,
 	},
 
 	init: async () => {

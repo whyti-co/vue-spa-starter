@@ -1,5 +1,5 @@
 import { ref, watchEffect } from 'vue';
-import { usePlatform } from '@/core/platform';
+import { usePlatform, useThemeSync } from '@/core/platform';
 
 export type TThemeMode = 'system' | 'light' | 'dark';
 export type TResolvedTheme = 'light' | 'dark' | 'tma';
@@ -10,7 +10,7 @@ export const themeModes: { value: TThemeMode; label: string }[] = [
 	{ value: 'dark', label: 'Dark' },
 ];
 
-const { isTMA } = usePlatform();
+const { isTMA, platform } = usePlatform();
 
 const storedMode = localStorage.getItem('theme-mode') as TThemeMode | null;
 const mode = ref<TThemeMode>(storedMode ?? 'system');
@@ -36,9 +36,15 @@ window
 	});
 
 watchEffect(() => {
+	// Track platform changes to re-resolve theme when platform is detected
+	void platform.value;
 	theme.value = resolveTheme(mode.value);
 	document.documentElement.setAttribute('data-theme', theme.value);
 	localStorage.setItem('theme-mode', mode.value);
+
+	requestAnimationFrame(() => {
+		useThemeSync().updatePlatformTheme();
+	});
 });
 
 export function useTheme() {
