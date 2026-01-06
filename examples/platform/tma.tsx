@@ -56,7 +56,7 @@ import {
 	type TAccelerometerData,
 	type TDeviceOrientationData,
 	type TGyroscopeData,
-} from '@/core/platform/adapters/tma-bridge';
+} from '@/plugins/tma/bridge';
 
 export default defineComponent({
 	name: 'TMAExample',

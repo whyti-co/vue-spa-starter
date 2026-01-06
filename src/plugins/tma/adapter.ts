@@ -1,6 +1,10 @@
 import { watch } from 'vue';
+import {
+	EPlatform,
+	type THapticsStyle,
+	type TPlatformAdapter,
+} from '@/core/platform/types';
 import { getColorScheme } from '@/utils';
-import { EPlatform, type THapticsStyle, type TPlatformAdapter } from '../types';
 import {
 	authenticateWithBiometry,
 	expand,
@@ -13,7 +17,7 @@ import {
 	setHeaderColor,
 	state,
 	subscribe,
-} from './tma-bridge';
+} from './bridge';
 
 const hapticStyleMap: Record<
 	THapticsStyle,
