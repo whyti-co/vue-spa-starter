@@ -18,7 +18,10 @@ export default defineComponent({
 		}
 
 		return () => (
-			<div class="bg-base-100 fixed top-0 left-0 right-0 z-50">
+			<div
+				class="topbar fixed top-0 left-0 right-0 z-50"
+				style="padding-top: var(--content-safe-area-top, env(safe-area-inset-top))"
+			>
 				<div class="navbar container mx-auto">
 					<div class="navbar-start">
 						{layout.topBar.left && (
