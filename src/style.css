@@ -73,9 +73,9 @@
 }
 
 @layer base {
-	*,
-	*::before,
-	*::after {
+	*:not([class*="enter"]):not([class*="leave"]),
+	*:not([class*="enter"]):not([class*="leave"])::before,
+	*:not([class*="enter"]):not([class*="leave"])::after {
 		transition:
 			background-color 0.2s ease,
 			border-color 0.2s ease,
@@ -97,26 +97,28 @@
 	.slide-down-enter-active,
 	.slide-down-leave-active {
 		transition:
-			transform 0.2s ease,
-			opacity 0.2s ease;
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		will-change: transform, opacity;
 	}
 
 	.slide-down-enter-from,
 	.slide-down-leave-to {
-		transform: translateY(-100%);
+		transform: translate3d(0, -100%, 0);
 		opacity: 0;
 	}
 
 	.slide-up-enter-active,
 	.slide-up-leave-active {
 		transition:
-			transform 0.2s ease,
-			opacity 0.2s ease;
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		will-change: transform, opacity;
 	}
 
 	.slide-up-enter-from,
 	.slide-up-leave-to {
-		transform: translateY(100%);
+		transform: translate3d(0, 100%, 0);
 		opacity: 0;
 	}
 
@@ -131,20 +133,20 @@
 
 	/* Slide left: new page enters from right, old exits to left */
 	.slide-left-enter-from {
-		transform: translateX(100vw);
+		transform: translate3d(100vw, 0, 0);
 	}
 
 	.slide-left-leave-to {
-		transform: translateX(-100vw);
+		transform: translate3d(-100vw, 0, 0);
 	}
 
 	/* Slide right: new page enters from left, old exits to right */
 	.slide-right-enter-from {
-		transform: translateX(-100vw);
+		transform: translate3d(-100vw, 0, 0);
 	}
 
 	.slide-right-leave-to {
-		transform: translateX(100vw);
+		transform: translate3d(100vw, 0, 0);
 	}
 }
 
@@ -208,15 +210,15 @@
 	.dock-container.slide-up-enter-active,
 	.dock-container.slide-up-leave-active {
 		transition:
-			transform 0.2s ease,
-			opacity 0.2s ease,
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 			height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 			border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.dock-container.slide-up-enter-from,
 	.dock-container.slide-up-leave-to {
-		transform: translateY(100%);
+		transform: translate3d(0, 100%, 0);
 		opacity: 0;
 	}
 
@@ -326,7 +328,7 @@
 	}
 
 	.dock-drawer-open .dock-icons {
-		transform: translateY(-100%);
+		transform: translate3d(0, -100%, 0);
 		opacity: 0;
 		pointer-events: none;
 	}
