@@ -33,7 +33,7 @@ export default defineComponent({
 
 		return () => (
 			<div ref={containerRef} class="absolute inset-0 overflow-y-auto">
-				<div class="container mx-auto p-4">{slots.default?.()}</div>
+				{slots.default?.()}
 			</div>
 		);
 	},

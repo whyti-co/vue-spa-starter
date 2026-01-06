@@ -54,105 +54,98 @@ export default defineComponent({
 					},
 				}}
 			>
-				<div class="space-y-6">
-					<div class="card bg-base-200">
-						<div class="card-body">
-							<h2 class="card-title">
-								{t(messages.pages.profile.accountInfo)}
-							</h2>
-							{session.isAuthenticated ? (
-								<div class="flex items-center gap-4">
-									<Avatar
-										letter={session.user?.name?.[0]}
-										size="lg"
-										variant="primary"
-									/>
-									<div class="space-y-1">
-										<p class="font-semibold text-lg">{session.user?.name}</p>
-										<p class="text-base-content/70">{session.user?.email}</p>
-									</div>
+				<div class="card bg-base-200">
+					<div class="card-body">
+						<h2 class="card-title">{t(messages.pages.profile.accountInfo)}</h2>
+						{session.isAuthenticated ? (
+							<div class="flex items-center gap-4">
+								<Avatar
+									letter={session.user?.name?.[0]}
+									size="lg"
+									variant="primary"
+								/>
+								<div class="space-y-1">
+									<p class="font-semibold text-lg">{session.user?.name}</p>
+									<p class="text-base-content/70">{session.user?.email}</p>
 								</div>
-							) : (
-								<div class="flex items-center gap-4">
-									<div class="skeleton w-16 h-16 rounded-full" />
-									<div class="space-y-2">
-										<div class="skeleton h-4 w-32" />
-										<div class="skeleton h-3 w-48" />
-									</div>
+							</div>
+						) : (
+							<div class="flex items-center gap-4">
+								<div class="skeleton w-16 h-16 rounded-full" />
+								<div class="space-y-2">
+									<div class="skeleton h-4 w-32" />
+									<div class="skeleton h-3 w-48" />
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 					</div>
-
-					<div class="card bg-base-200">
-						<div class="card-body">
-							<h2 class="card-title">
-								{t(messages.pages.profile.verificationStatus)}
-							</h2>
-
-							{session.isVerified ? (
-								<div class="space-y-3">
-									<div class="badge badge-success gap-1">
-										<CheckIcon class="h-4 w-4" />
-										{t(messages.common.verified)}
-									</div>
-									<div class="grid gap-2 text-sm">
-										<div class="flex justify-between">
-											<span class="text-base-content/70">
-												{t(messages.common.fullName)}
-											</span>
-											<span class="font-medium">
-												{session.user?.verification?.fullName}
-											</span>
-										</div>
-										<div class="divider my-0" />
-										<div class="flex justify-between">
-											<span class="text-base-content/70">
-												{t(messages.common.document)}
-											</span>
-											<span class="font-medium">
-												{session.user?.verification?.documentType}
-											</span>
-										</div>
-										<div class="divider my-0" />
-										<div class="flex justify-between">
-											<span class="text-base-content/70">
-												{t(messages.common.verified)}
-											</span>
-											<span class="font-medium">
-												{session.user?.verification?.verifiedAt}
-											</span>
-										</div>
-									</div>
-								</div>
-							) : (
-								<div class="flex items-center justify-between">
-									<div class="badge badge-warning gap-1">
-										<WarningIcon class="h-4 w-4" />
-										{t(messages.common.notVerified)}
-									</div>
-									{session.isAuthenticated && (
-										<button
-											class="btn btn-primary btn-sm"
-											onClick={handleVerify}
-										>
-											{t(messages.pages.profile.verifyNow)}
-										</button>
-									)}
-								</div>
-							)}
-						</div>
-					</div>
-
-					{session.isAuthenticated && (
-						<button
-							class="btn btn-outline btn-error w-full"
-							onClick={handleLogout}
-						>
-							{t(messages.common.logout)}
-						</button>
-					)}
 				</div>
+
+				<div class="card bg-base-200">
+					<div class="card-body">
+						<h2 class="card-title">
+							{t(messages.pages.profile.verificationStatus)}
+						</h2>
+
+						{session.isVerified ? (
+							<div class="space-y-3">
+								<div class="badge badge-success gap-1">
+									<CheckIcon class="h-4 w-4" />
+									{t(messages.common.verified)}
+								</div>
+								<div class="grid gap-2 text-sm">
+									<div class="flex justify-between">
+										<span class="text-base-content/70">
+											{t(messages.common.fullName)}
+										</span>
+										<span class="font-medium">
+											{session.user?.verification?.fullName}
+										</span>
+									</div>
+									<div class="divider my-0" />
+									<div class="flex justify-between">
+										<span class="text-base-content/70">
+											{t(messages.common.document)}
+										</span>
+										<span class="font-medium">
+											{session.user?.verification?.documentType}
+										</span>
+									</div>
+									<div class="divider my-0" />
+									<div class="flex justify-between">
+										<span class="text-base-content/70">
+											{t(messages.common.verified)}
+										</span>
+										<span class="font-medium">
+											{session.user?.verification?.verifiedAt}
+										</span>
+									</div>
+								</div>
+							</div>
+						) : (
+							<div class="flex items-center justify-between">
+								<div class="badge badge-warning gap-1">
+									<WarningIcon class="h-4 w-4" />
+									{t(messages.common.notVerified)}
+								</div>
+								{session.isAuthenticated && (
+									<button class="btn btn-primary btn-sm" onClick={handleVerify}>
+										{t(messages.pages.profile.verifyNow)}
+									</button>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
+
+				{session.isAuthenticated && (
+					<button
+						class="btn btn-outline btn-error w-full"
+						onClick={handleLogout}
+					>
+						{t(messages.common.logout)}
+					</button>
+				)}
 			</PageWrapper>
 		);
 	},

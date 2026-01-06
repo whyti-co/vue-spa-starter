@@ -66,17 +66,15 @@ export default defineComponent({
 					},
 				}}
 			>
-				<div class="p-4 space-y-3">
-					{examples.map((example) => (
-						<RouterLink
-							to={example.path}
-							class="card bg-base-200 p-4 block hover:bg-base-300 transition-colors"
-						>
-							<h2 class="font-semibold">{example.title}</h2>
-							<p class="text-sm text-base-content/70">{example.description}</p>
-						</RouterLink>
-					))}
-				</div>
+				{examples.map((example) => (
+					<RouterLink
+						to={example.path}
+						class="card bg-base-200 p-4 block hover:bg-base-300 transition-colors"
+					>
+						<h2 class="font-semibold">{example.title}</h2>
+						<p class="text-sm text-base-content/70">{example.description}</p>
+					</RouterLink>
+				))}
 			</PageWrapper>
 		);
 	},

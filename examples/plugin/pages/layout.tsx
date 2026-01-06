@@ -35,24 +35,22 @@ export default defineComponent({
 						},
 					}}
 				>
-					<div class="p-4">
-						<div role="tablist" class="tabs tabs-box mb-4">
-							{examples.map((ex) => (
-								<button
-									role="tab"
-									class={['tab', activeTab.value === ex.id && 'tab-active']}
-									onClick={() => {
-										activeTab.value = ex.id;
-									}}
-								>
-									{ex.label}
-								</button>
-							))}
-						</div>
+					<div role="tablist" class="tabs tabs-box">
+						{examples.map((ex) => (
+							<button
+								role="tab"
+								class={['tab', activeTab.value === ex.id && 'tab-active']}
+								onClick={() => {
+									activeTab.value = ex.id;
+								}}
+							>
+								{ex.label}
+							</button>
+						))}
+					</div>
 
-						<div class="card bg-base-200 p-4">
-							<Component />
-						</div>
+					<div class="card bg-base-200 p-4">
+						<Component />
 					</div>
 				</PageWrapper>
 			);

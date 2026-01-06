@@ -19,41 +19,39 @@ export default defineComponent({
 					},
 				}}
 			>
-				<div class="p-4">
-					<div role="tablist" class="tabs tabs-box mb-4">
-						<button
-							role="tab"
-							class={['tab', activeTab.value === 'drawer' && 'tab-active']}
-							onClick={() => {
-								activeTab.value = 'drawer';
-							}}
-						>
-							Drawer
-						</button>
-						<button
-							role="tab"
-							class={['tab', activeTab.value === 'simple' && 'tab-active']}
-							onClick={() => {
-								activeTab.value = 'simple';
-							}}
-						>
-							Simple
-						</button>
-						<button
-							role="tab"
-							class={['tab', activeTab.value === 'router' && 'tab-active']}
-							onClick={() => {
-								activeTab.value = 'router';
-							}}
-						>
-							With Router
-						</button>
-					</div>
-
-					{activeTab.value === 'drawer' && <DrawerExample />}
-					{activeTab.value === 'simple' && <SimpleModal />}
-					{activeTab.value === 'router' && <ModalWithRouter />}
+				<div role="tablist" class="tabs tabs-box">
+					<button
+						role="tab"
+						class={['tab', activeTab.value === 'drawer' && 'tab-active']}
+						onClick={() => {
+							activeTab.value = 'drawer';
+						}}
+					>
+						Drawer
+					</button>
+					<button
+						role="tab"
+						class={['tab', activeTab.value === 'simple' && 'tab-active']}
+						onClick={() => {
+							activeTab.value = 'simple';
+						}}
+					>
+						Simple
+					</button>
+					<button
+						role="tab"
+						class={['tab', activeTab.value === 'router' && 'tab-active']}
+						onClick={() => {
+							activeTab.value = 'router';
+						}}
+					>
+						With Router
+					</button>
 				</div>
+
+				{activeTab.value === 'drawer' && <DrawerExample />}
+				{activeTab.value === 'simple' && <SimpleModal />}
+				{activeTab.value === 'router' && <ModalWithRouter />}
 			</PageWrapper>
 		);
 	},

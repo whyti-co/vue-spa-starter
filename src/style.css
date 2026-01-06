@@ -15,10 +15,7 @@
 	--color-primary-content: var(--tg-button-text-color);
 	--color-secondary: var(--tg-hint-color);
 	--color-secondary-content: var(--tg-text-color);
-	--color-accent: var(
-		--tg-accent-text-color,
-		var(--tg-accent-text-color)
-	);
+	--color-accent: var(--tg-accent-text-color, var(--tg-accent-text-color));
 	--color-accent-content: var(--tg-button-text-color);
 	--color-neutral: var(--tg-subtitle-text-color);
 	--color-neutral-content: var(--tg-subtitle-text-color);

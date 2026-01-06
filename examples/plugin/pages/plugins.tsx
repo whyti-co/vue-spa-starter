@@ -31,7 +31,7 @@ export default defineComponent({
 							},
 						}}
 					>
-						<div class="p-4 flex justify-center">
+						<div class="flex-1 flex justify-center items-center">
 							<span class="loading loading-spinner loading-lg" />
 						</div>
 					</PageWrapper>
@@ -51,25 +51,23 @@ export default defineComponent({
 						},
 					}}
 				>
-					<div class="p-4 space-y-4">
-						<div class="card bg-base-200 p-4">
-							<h2 class="font-semibold mb-3">Lazy-loaded Component</h2>
-							<Counter />
-						</div>
+					<div class="card bg-base-200 p-4">
+						<h2 class="font-semibold mb-3">Lazy-loaded Component</h2>
+						<Counter />
+					</div>
 
-						<div class="card bg-base-200 p-4">
-							<h2 class="font-semibold mb-2">Composable State</h2>
-							<p class="text-sm">
-								Count: {counter.count} (doubled: {counter.doubled})
-							</p>
-						</div>
+					<div class="card bg-base-200 p-4">
+						<h2 class="font-semibold mb-2">Composable State</h2>
+						<p class="text-sm">
+							Count: {counter.count} (doubled: {counter.doubled})
+						</p>
+					</div>
 
-						<div class="card bg-base-200 p-4">
-							<h2 class="font-semibold mb-3">Plugin Modal</h2>
-							<button class="btn btn-primary btn-sm" onClick={openModal}>
-								Open Modal
-							</button>
-						</div>
+					<div class="card bg-base-200 p-4">
+						<h2 class="font-semibold mb-3">Plugin Modal</h2>
+						<button class="btn btn-primary btn-sm" onClick={openModal}>
+							Open Modal
+						</button>
 					</div>
 				</PageWrapper>
 			);

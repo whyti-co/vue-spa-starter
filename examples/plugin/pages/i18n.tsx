@@ -19,30 +19,28 @@ export default defineComponent({
 					},
 				}}
 			>
-				<div class="p-4">
-					<div role="tablist" class="tabs tabs-box mb-4">
-						<button
-							role="tab"
-							class={['tab', activeTab.value === 'simple' && 'tab-active']}
-							onClick={() => {
-								activeTab.value = 'simple';
-							}}
-						>
-							Simple
-						</button>
-						<button
-							role="tab"
-							class={['tab', activeTab.value === 'advanced' && 'tab-active']}
-							onClick={() => {
-								activeTab.value = 'advanced';
-							}}
-						>
-							Advanced
-						</button>
-					</div>
-
-					{activeTab.value === 'simple' ? <Simple /> : <Advanced />}
+				<div role="tablist" class="tabs tabs-box">
+					<button
+						role="tab"
+						class={['tab', activeTab.value === 'simple' && 'tab-active']}
+						onClick={() => {
+							activeTab.value = 'simple';
+						}}
+					>
+						Simple
+					</button>
+					<button
+						role="tab"
+						class={['tab', activeTab.value === 'advanced' && 'tab-active']}
+						onClick={() => {
+							activeTab.value = 'advanced';
+						}}
+					>
+						Advanced
+					</button>
 				</div>
+
+				{activeTab.value === 'simple' ? <Simple /> : <Advanced />}
 			</PageWrapper>
 		);
 	},

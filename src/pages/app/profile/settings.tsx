@@ -38,69 +38,67 @@ export default defineComponent({
 					dock: { visible: false },
 				}}
 			>
-				<div class="space-y-4">
-					<div class="card bg-base-200">
-						<div class="card-body gap-4">
-							<h2 class="card-title gap-2">
-								<SunIcon class="h-5 w-5" />
-								{t(messages.pages.settings.appearance)}
-							</h2>
-							<div class="form-control">
-								<select
-									class="select select-bordered"
-									value={mode.value}
-									onChange={(e) =>
-										setMode((e.target as HTMLSelectElement).value as TThemeMode)
-									}
-								>
-									{themeModes.map((opt) => (
-										<option key={opt.value} value={opt.value}>
-											{opt.label}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-					</div>
-
-					<div class="card bg-base-200">
-						<div class="card-body gap-4">
-							<h2 class="card-title gap-2">
-								<GlobeIcon class="h-5 w-5" />
-								{t(messages.pages.settings.language)}
-							</h2>
-							<div class="form-control">
-								<select
-									class="select select-bordered"
-									value={locale.value}
-									onChange={(e) =>
-										setLocale((e.target as HTMLSelectElement).value as Locale)
-									}
-								>
-									{locales.map((loc) => (
-										<option key={loc} value={loc}>
-											{localeLabels[loc]}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-					</div>
-
-					<div class="card bg-base-200">
-						<div class="card-body gap-4">
-							<h2 class="card-title gap-2">
-								<DocumentIcon class="h-5 w-5" />
-								{t(messages.pages.settings.legal)}
-							</h2>
-							<button
-								type="button"
-								class="btn btn-ghost justify-start"
-								onClick={() => open('/tos')}
+				<div class="card bg-base-200">
+					<div class="card-body gap-4">
+						<h2 class="card-title gap-2">
+							<SunIcon class="h-5 w-5" />
+							{t(messages.pages.settings.appearance)}
+						</h2>
+						<div class="form-control">
+							<select
+								class="select select-bordered"
+								value={mode.value}
+								onChange={(e) =>
+									setMode((e.target as HTMLSelectElement).value as TThemeMode)
+								}
 							>
-								{t(messages.pages.settings.termsOfService)}
-							</button>
+								{themeModes.map((opt) => (
+									<option key={opt.value} value={opt.value}>
+										{opt.label}
+									</option>
+								))}
+							</select>
 						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-200">
+					<div class="card-body gap-4">
+						<h2 class="card-title gap-2">
+							<GlobeIcon class="h-5 w-5" />
+							{t(messages.pages.settings.language)}
+						</h2>
+						<div class="form-control">
+							<select
+								class="select select-bordered"
+								value={locale.value}
+								onChange={(e) =>
+									setLocale((e.target as HTMLSelectElement).value as Locale)
+								}
+							>
+								{locales.map((loc) => (
+									<option key={loc} value={loc}>
+										{localeLabels[loc]}
+									</option>
+								))}
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-200">
+					<div class="card-body gap-4">
+						<h2 class="card-title gap-2">
+							<DocumentIcon class="h-5 w-5" />
+							{t(messages.pages.settings.legal)}
+						</h2>
+						<button
+							type="button"
+							class="btn btn-ghost justify-start"
+							onClick={() => open('/tos')}
+						>
+							{t(messages.pages.settings.termsOfService)}
+						</button>
 					</div>
 				</div>
 			</PageWrapper>

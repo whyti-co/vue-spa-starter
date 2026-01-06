@@ -18,7 +18,13 @@ export default defineComponent({
 		const hasDock = props.layout?.dock?.visible ?? true;
 
 		return () => (
-			<div class={['min-h-full', hasTopBar && 'pt-16', hasDock && 'pb-20']}>
+			<div
+				class={[
+					'flex flex-col gap-3 p-4 min-h-full',
+					hasTopBar && 'pt-20',
+					hasDock && 'pb-24',
+				]}
+			>
 				{slots.default?.()}
 			</div>
 		);
