@@ -1,4 +1,8 @@
-import { EPlatform, type THapticsStyle, type TPlatformAdapter } from '../types';
+import {
+	EPlatform,
+	type THapticsStyle,
+	type TPlatformAdapter,
+} from '@/core/platform/types';
 
 const vibrationPatterns: Record<THapticsStyle, number[]> = {
 	light: [10],
@@ -9,7 +13,7 @@ const vibrationPatterns: Record<THapticsStyle, number[]> = {
 	error: [30, 50, 30, 50, 30],
 };
 
-const hasVibration = 'vibrate' in navigator;
+const hasVibration = typeof navigator !== 'undefined' && 'vibrate' in navigator;
 
 const adapter: TPlatformAdapter = {
 	id: EPlatform.PWA,
@@ -19,8 +23,8 @@ const adapter: TPlatformAdapter = {
 		biometry: false, // WebAuthn could be added later
 		themeSync: false,
 		cloudStorage: false,
-		share: 'share' in navigator,
-		notifications: 'Notification' in window,
+		share: typeof navigator !== 'undefined' && 'share' in navigator,
+		notifications: typeof window !== 'undefined' && 'Notification' in window,
 	},
 
 	haptics: {
