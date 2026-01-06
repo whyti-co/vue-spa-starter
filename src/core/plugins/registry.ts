@@ -11,6 +11,10 @@ export const registry: TPluginRegistry = shallowReactive({
  * Register a plugin (does not run setup yet)
  */
 export function registerPlugin(plugin: TPlugin): void {
+	if (!plugin?.name) {
+		console.error('[plugins] Invalid plugin (missing name):', plugin);
+		return;
+	}
 	if (registry.plugins.has(plugin.name)) {
 		console.warn(`Plugin "${plugin.name}" is already registered`);
 		return;
