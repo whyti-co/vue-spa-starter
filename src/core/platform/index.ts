@@ -79,7 +79,6 @@ export function usePlatform() {
 		// Convenience checks
 		isPWA: () => platform.value === EPlatform.PWA,
 		isTMA: () => platform.value === EPlatform.TMA,
-		isWebview: () => platform.value === EPlatform.Webview,
 		isBrowser: () => platform.value === EPlatform.Browser,
 	};
 }

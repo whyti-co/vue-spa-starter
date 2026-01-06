@@ -2,7 +2,6 @@
 export const EPlatform = {
 	PWA: 'pwa',
 	TMA: 'tma', // Telegram Mini App
-	Webview: 'webview', // Generic webview (iOS/Android)
 	Browser: 'browser', // Standard browser fallback
 } as const;
 
