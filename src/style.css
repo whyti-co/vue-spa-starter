@@ -7,32 +7,32 @@
 	default: false;
 	prefersdark: false;
 	color-scheme: "light dark";
-	--color-base-100: var(--tg-theme-bg-color, #ffffff);
-	--color-base-200: var(--tg-theme-secondary-bg-color, #f0f0f0);
-	--color-base-300: var(--tg-theme-section-bg-color, #e0e0e0);
-	--color-base-content: var(--tg-theme-text-color, #000000);
-	--color-primary: var(--tg-theme-button-color, #3390ec);
-	--color-primary-content: var(--tg-theme-button-text-color, #ffffff);
-	--color-secondary: var(--tg-theme-hint-color, #999999);
-	--color-secondary-content: var(--tg-theme-text-color, #000000);
+	--color-base-100: var(--tg-bg-color);
+	--color-base-200: var(--tg-section-bg-color);
+	--color-base-300: var(--tg-secondary-bg-color);
+	--color-base-content: var(--tg-text-color);
+	--color-primary: var(--tg-button-color);
+	--color-primary-content: var(--tg-button-text-color);
+	--color-secondary: var(--tg-hint-color);
+	--color-secondary-content: var(--tg-text-color);
 	--color-accent: var(
-		--tg-theme-accent-text-color,
-		var(--tg-theme-link-color, #3390ec)
+		--tg-accent-text-color,
+		var(--tg-accent-text-color)
 	);
-	--color-accent-content: var(--tg-theme-button-text-color, #ffffff);
-	--color-neutral: var(--tg-theme-subtitle-text-color, #707579);
-	--color-neutral-content: var(--tg-theme-bg-color, #ffffff);
-	--color-info: var(--tg-theme-link-color, #3390ec);
-	--color-info-content: var(--tg-theme-button-text-color, #ffffff);
+	--color-accent-content: var(--tg-button-text-color);
+	--color-neutral: var(--tg-subtitle-text-color);
+	--color-neutral-content: var(--tg-subtitle-text-color);
+	--color-info: var(--tg-link-color);
+	--color-info-content: var(--tg-button-text-color);
 	--color-success: #31b545;
 	--color-success-content: #ffffff;
 	--color-warning: #ffc107;
 	--color-warning-content: #000000;
-	--color-error: var(--tg-theme-destructive-text-color, #e53935);
+	--color-error: var(--tg-destructive-text-color);
 	--color-error-content: #ffffff;
-	--radius-selector: 0.75rem;
-	--radius-field: 0.75rem;
-	--radius-box: 1rem;
+	--radius-selector: 2rem;
+	--radius-field: 2rem;
+	--radius-box: 2rem;
 	--size-selector: 0.25rem;
 	--size-field: 0.25rem;
 	--border: 1px;

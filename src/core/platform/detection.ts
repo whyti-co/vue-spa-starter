@@ -1,14 +1,8 @@
+import { isTMA, parseLaunchParams } from './adapters/tma-bridge';
 import { EPlatform } from './types';
 
 declare global {
 	interface Window {
-		Telegram?: {
-			WebApp?: {
-				initData: string;
-				initDataUnsafe: unknown;
-				ready: () => void;
-			};
-		};
 		webkit?: {
 			messageHandlers?: unknown;
 		};
@@ -18,7 +12,8 @@ declare global {
 
 export function detectPlatform(): EPlatform {
 	// Telegram Mini App detection
-	if (window.Telegram?.WebApp?.initData) {
+	// Check both bridge environment and launch params
+	if (isTMA() || parseLaunchParams()) {
 		return EPlatform.TMA;
 	}
 
