@@ -109,7 +109,8 @@ src/
 │       └── verify-identity/
 │           ├── step1.tsx
 │           └── step2.tsx
-├── plugins/             # App plugins (enabled via plugins.config.ts)
+├── plugins/             # App plugins (auto-loaded via plugins.config.ts)
+│   └── tma/             # Telegram Mini App platform plugin
 ├── utils/               # Generic utility functions
 ├── App.tsx
 ├── main.ts
@@ -118,7 +119,8 @@ src/
 examples/                # Reference implementations (including plugin example)
 scripts/                 # Helper scripts (i18n, etc.)
 plugins.config.ts        # Plugin enable/disable configuration
-vite-plugins/            # Custom Vite plugins
+vite-plugins/
+└── tree-shake-plugins.ts  # Auto-generates plugin loader from config
 ```
 
 ### Page Naming
@@ -402,27 +404,22 @@ Features:
 
 ### Layout System
 
-Control TopBar and Dock visibility per page via the `PageWrapper` component. Every page should wrap its content in `PageWrapper` with layout config as props:
+Control TopBar and Dock visibility per page via the `PageWrapper` component. Every page should wrap its content in `PageWrapper` with layout config as props.
+
+**PageWrapper provides:** `flex flex-col gap-3 p-4` plus dynamic top/bottom padding for TopBar/Dock. Place children directly without wrapper divs.
 
 ```tsx
 import PageWrapper from '@/components/PageWrapper'
 import { TopBarTitle } from '@/components/layouts'
 import CogIcon from '@/assets/icons/cog.svg?component'
 
-// Default layout (home page) - no topbar, dock visible
-export default defineComponent({
-  name: 'HomePage',
-  setup() {
-    return () => (
-      <PageWrapper>
-        <div>Page content</div>
-      </PageWrapper>
-    )
-  },
-})
+// Default layout - children placed directly
+<PageWrapper>
+  <div class="card bg-base-200">First card</div>
+  <div class="card bg-base-200">Second card</div>
+</PageWrapper>
 
-// TopBar with title and navigation (profile page)
-// Title is a render function for i18n reactivity
+// TopBar with title and navigation
 <PageWrapper
   layout={{
     topBar: {
@@ -432,20 +429,7 @@ export default defineComponent({
     },
   }}
 >
-  <div>Page content</div>
-</PageWrapper>
-
-// TopBar with onClick handler
-<PageWrapper
-  layout={{
-    topBar: {
-      visible: true,
-      title: () => <TopBarTitle title={t(messages.pages.settings.title)} />,
-      right: { icon: MenuIcon, onClick: () => openMenu() },
-    },
-  }}
->
-  <div>Page content</div>
+  <div class="card bg-base-200">Content</div>
 </PageWrapper>
 
 // Hide dock (settings page)
@@ -459,7 +443,7 @@ export default defineComponent({
     dock: { visible: false },
   }}
 >
-  <div>Page content</div>
+  <div class="card bg-base-200">Content</div>
 </PageWrapper>
 ```
 
@@ -468,11 +452,6 @@ Layout options:
 - `topBar.title` - render function returning VNode (use `TopBarTitle` for standard styling)
 - `topBar.left` / `topBar.right` - action with icon + `to` (route) or `onClick` (function)
 - `dock.visible` - show/hide bottom navigation dock (defaults to `true`)
-
-**How it works:**
-- `PageWrapper` updates shared layout state for TopBar/Dock components via `useLayout()`
-- `PageWrapper` applies its own padding based on topBar/dock visibility from props (not shared state)
-- This ensures page padding is isolated during transitions - the leaving page keeps its padding
 
 ### Page Transitions
 
@@ -532,28 +511,46 @@ Vue Suspense slots must be passed as an object with render functions:
 
 ### Platform System
 
-Runtime platform detection for PWA, Telegram Mini App (TMA), and webview environments. Single build supports all platforms with graceful feature fallbacks.
+Runtime platform detection with plugin-provided adapters. Core provides detection framework and browser fallback; platform-specific features are provided by plugins.
 
 ```
 core/platform/
 ├── index.ts             # usePlatform, useHaptics, useBiometry, initPlatform
 ├── types.ts             # EPlatform, TPlatformCapabilities, TPlatformAdapter
-├── detection.ts         # detectPlatform()
+├── detection.ts         # detectPlatform() - uses plugin-registered detectors
 └── adapters/
-    ├── browser.ts       # Default fallback (noop implementations)
-    ├── pwa.ts           # PWA with vibration API
-    ├── tma.ts           # Telegram Mini App adapter
-    ├── tma-bridge/      # Minimal TMA bridge using Vue reactivity
-    └── webview.ts       # Generic webview bridge
+    ├── index.ts         # registerPlatformDetector, registerPlatformAdapter
+    └── browser.ts       # Default fallback (noop implementations)
+
+plugins/
+├── tma/                 # Telegram Mini App
+└── pwa/                 # Progressive Web App (haptics, share, notifications)
 ```
 
-**Platform detection** (automatic at startup):
+Platform plugins register their detectors and adapters during setup (before platform detection):
+
+```ts
+// plugins/tma/index.ts
+import { registerPlatformAdapter, registerPlatformDetector } from '@/core/platform/adapters'
+import { EPlatform } from '@/core/platform/types'
+
+const plugin: TPlugin = {
+  name: 'tma',
+  setup: async () => {
+    registerPlatformDetector(EPlatform.TMA, isTMA)
+    registerPlatformAdapter(EPlatform.TMA, adapter)
+  },
+  load: () => import('./exports').then(m => m.default),
+}
+```
+
+**Using platform features:**
 
 ```ts
 import { usePlatform, useHaptics, useBiometry } from '@/core/platform'
 
 const { platform, capabilities, isTMA, isPWA } = usePlatform()
-// platform.value: 'browser' | 'pwa' | 'tma' | 'webview'
+// platform.value: 'browser' | 'pwa' | 'tma'
 // capabilities.value: { haptics, biometry, themeSync, ... }
 
 const haptics = useHaptics()
@@ -565,38 +562,46 @@ if (biometry.available) {
 }
 ```
 
-**Features by platform:**
-| Feature | Browser | PWA | TMA | Webview |
-|---------|---------|-----|-----|---------|
-| Haptics | ❌ | ✅ (vibrate) | ✅ | ❌ |
-| Biometry | ❌ | ❌ | ✅ | ❌ |
-| Theme Sync | ❌ | ❌ | ✅ | ❌ |
+**Features by platform plugin:**
+| Feature | Browser (core) | TMA plugin | PWA plugin |
+|---------|----------------|------------|------------|
+| Haptics | ❌ | ✅ | ✅ (vibrate) |
+| Biometry | ❌ | ✅ | ❌ |
+| Theme Sync | ❌ | ✅ | ❌ |
+| Share | ❌ | ❌ | ✅ |
+| Notifications | ❌ | ❌ | ✅ |
 
 ### Plugin System
 
-Modular plugin architecture with build-time tree-shaking and lazy-loaded exports.
+Modular plugin architecture with build-time tree-shaking and lazy-loaded exports. Plugins are auto-loaded via Vite virtual module based on `plugins.config.ts`.
 
 ```
 src/plugins/
-├── index.ts             # loadEnabledPlugins()
 └── [plugin-name]/
     ├── index.ts         # Plugin definition (routes, setup) - loaded at startup
     ├── exports.ts       # Heavy code (composables, components) - lazy loaded
+    ├── bridge/          # Platform bridge (for platform plugins)
+    ├── adapter.ts       # Platform adapter (for platform plugins)
     ├── pages/           # Plugin pages
     ├── modals/          # Plugin modals
     └── composables/
 
-plugins.config.ts        # Enable/disable plugins
+plugins.config.ts        # Enable/disable plugins (controls load order)
+vite-plugins/
+└── tree-shake-plugins.ts  # Generates virtual:plugins-loader
 ```
 
 **Plugin configuration** (`plugins.config.ts`):
 
 ```ts
 export const plugins: TPluginsConfig = {
-  web3: { enabled: true },
-  analytics: { enabled: false },  // Tree-shaken from bundle
+  tma: { enabled: true },       // Platform plugin - TMA
+  web3: { enabled: true },      // Feature plugin
+  analytics: { enabled: false }, // Disabled - tree-shaken from bundle
 }
 ```
+
+Plugins load in the order they appear in config. Platform plugins should be listed first so they can register adapters before platform detection.
 
 **Creating a plugin** (see `examples/plugin/`):
 
@@ -665,16 +670,12 @@ return <plugin.value.MyComponent />
 ```
 
 **Adding a new plugin:**
-1. Add entry to `plugins.config.ts`: `{ myplugin: { enabled: true } }`
-2. Create plugin at `src/plugins/myplugin/` (follow `examples/plugin/` structure)
-3. Add import to `src/plugins/index.ts`:
-   ```ts
-   if (__PLUGIN_MYPLUGIN_ENABLED__) {
-     const { default: plugin } = await import('./myplugin')
-     plugins.push(plugin)
-   }
-   ```
-4. Declare build flag in `src/vite-env.d.ts`:
-   ```ts
-   declare const __PLUGIN_MYPLUGIN_ENABLED__: boolean
-   ```
+1. Create plugin at `src/plugins/myplugin/` (follow `examples/plugin/` or `src/plugins/tma/` structure)
+2. Add entry to `plugins.config.ts`: `myplugin: { enabled: true }`
+
+That's it. The Vite plugin auto-generates the loader and build flags based on config.
+
+**Plugin import rules:**
+- Never import from inside a plugin except via `usePlugin()` (lazy-loaded exports)
+- Plugin types can be imported directly: `import type { TMyPluginExports } from '@/plugins/myplugin/exports'`
+- Platform plugin adapters are accessed via `usePlatform()`, not direct imports
