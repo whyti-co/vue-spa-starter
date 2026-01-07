@@ -1,10 +1,23 @@
-# Vue 3 + TypeScript + Bun
+# Perfect App Template
 
-A Vue 3 starter template with JSX, TypeScript, and Bun as the runtime.
+![Screenshots](docs/assets/combined.jpg)
 
-## Requirements
+## Features
 
-- [Bun](https://bun.sh) v1.0+ (required - Node.js is not supported)
+- Vue 3 with JSX syntax
+- TypeScript strict mode
+- Bun runtime
+- Tailwind CSS v4 + DaisyUI v5
+- Dark/light theming
+- i18n with ICU message syntax
+- iOS-style page transitions
+- Modal system with multi-step flows
+- Bottom dock navigation
+- Route guards (auth, verification)
+- Pinia stores with persistence
+- Plugin architecture with tree-shaking
+- Platform adapters (Browser, TMA, PWA)
+- Interactive examples library
 
 ## Quick Start
 
