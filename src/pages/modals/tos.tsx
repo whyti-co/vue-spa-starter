@@ -79,10 +79,10 @@ export default defineComponent({
 						support@example.com.
 					</p>
 				</div>
-				<div class="sticky bottom-0 pt-4 pb-1">
+				<div class="sticky bottom-0 py-4">
 					<button
 						type="button"
-						class="btn btn-primary w-full"
+						class="btn btn-primary w-full shadow-[0_0_2rem_1rem_var(--color-base-100)]"
 						onClick={() => modalRouter.back()}
 					>
 						{t(messages.actions.agree)}

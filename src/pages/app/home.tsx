@@ -15,13 +15,11 @@ export default defineComponent({
 
 		return () => (
 			<PageWrapper>
-				<div class="flex items-center justify-center pt-2">
-					<div class="flex items-center gap-2 h-10 justify-center">
-						<div class="w-8 h-8 rounded-xl bg-base-content flex items-center justify-center">
-							<span class="text-base-100 font-bold text-lg">A</span>
-						</div>
-						<span class="font-semibold text-lg tracking-tight">App</span>
+				<div class="flex items-center justify-center gap-2 h-10 pt-4">
+					<div class="w-8 h-8 rounded-xl bg-base-content flex items-center justify-center">
+						<span class="text-base-100 font-bold text-lg">A</span>
 					</div>
+					<span class="font-semibold text-lg tracking-tight">App</span>
 				</div>
 				<div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
 					{posts.map((post) => (

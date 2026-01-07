@@ -9,10 +9,12 @@ export default defineComponent({
 			<div class="modal-layout">
 				<Transition name="fade">
 					{steps.items.value.length > 1 && (
-						<Stepper
-							items={steps.items.value}
-							currentIndex={steps.currentIndex.value}
-						/>
+						<div class="pt-4">
+							<Stepper
+								items={steps.items.value}
+								currentIndex={steps.currentIndex.value}
+							/>
+						</div>
 					)}
 				</Transition>
 				{slots.default?.()}

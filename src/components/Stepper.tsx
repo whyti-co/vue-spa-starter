@@ -10,7 +10,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		return () => (
-			<ul class="steps w-full mb-4">
+			<ul class="steps w-full">
 				{props.items.map((item, idx) => (
 					<li
 						key={item.id}
