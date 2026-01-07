@@ -35,21 +35,25 @@ watch(
 	},
 );
 
-let resolvePromise: ((value: unknown) => void) | null = null;
+// Map of path -> resolver for promise safety when multiple modals open
+const resolvers = new Map<string, (value: unknown) => void>();
 
 export function useModal() {
 	async function open<T = unknown>(path: string): Promise<T | null> {
 		await modalRouter.push(path);
 		return new Promise((resolve) => {
-			resolvePromise = resolve as (value: unknown) => void;
+			resolvers.set(path, resolve as (value: unknown) => void);
 		}) as Promise<T | null>;
 	}
 
 	function close(data?: unknown) {
 		modalRouter.push('/');
 		steps.set([]);
-		resolvePromise?.(data ?? null);
-		resolvePromise = null;
+		// Resolve all pending promises (e.g., login -> TOS -> close should resolve both)
+		for (const resolver of resolvers.values()) {
+			resolver(data ?? null);
+		}
+		resolvers.clear();
 	}
 
 	return { isOpen, open, close };
