@@ -1,18 +1,37 @@
+/* Transition timing variables */
+:root {
+	--transition-fast: 150ms;
+	--transition-normal: 200ms;
+	--transition-slow: 300ms;
+	--transition-page: 350ms;
+	--transition-theme: 500ms;
+	--ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Theme transitions - applied only to theme-sensitive elements */
 @layer base {
-	*:not([class*="enter"]):not([class*="leave"]),
-	*:not([class*="enter"]):not([class*="leave"])::before,
-	*:not([class*="enter"]):not([class*="leave"])::after {
+	html,
+	body,
+	.card,
+	.btn,
+	.input,
+	.topbar,
+	.dock-container,
+	.dock-icons button,
+	[class*="bg-base"],
+	[class*="text-base"] {
 		transition:
-			background-color 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
+			background var(--transition-theme) ease,
+			background-color var(--transition-theme) ease,
+			border-color var(--transition-theme) ease,
+			color var(--transition-theme) ease;
 	}
 }
 
 @layer components {
 	.fade-enter-active,
 	.fade-leave-active {
-		transition: opacity 0.15s ease;
+		transition: opacity var(--transition-fast) ease;
 	}
 
 	.fade-enter-from,
@@ -23,8 +42,8 @@
 	.slide-down-enter-active,
 	.slide-down-leave-active {
 		transition:
-			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			transform var(--transition-slow) var(--ease-out),
+			opacity var(--transition-slow) var(--ease-out);
 		will-change: transform, opacity;
 	}
 
@@ -37,8 +56,8 @@
 	.slide-up-enter-active,
 	.slide-up-leave-active {
 		transition:
-			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-			opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			transform var(--transition-slow) var(--ease-out),
+			opacity var(--transition-slow) var(--ease-out);
 		will-change: transform, opacity;
 	}
 
@@ -53,7 +72,7 @@
 	.slide-left-leave-active,
 	.slide-right-enter-active,
 	.slide-right-leave-active {
-		transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: transform var(--transition-page) var(--ease-out);
 		will-change: transform;
 	}
 
