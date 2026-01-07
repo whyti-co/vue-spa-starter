@@ -24,6 +24,7 @@
 	flex-direction: column;
 	flex: 1;
 	min-height: 0;
+	gap: 1rem;
 }
 
 .modal-layout-content {
@@ -48,6 +49,17 @@
 	gap: 1rem;
 	margin-top: auto;
 	margin-bottom: auto;
+	padding: 1rem;
+}
+
+/* Mobile drawer: add safe area padding */
+@media (max-width: 767px) {
+	.modal-wrapper {
+		padding-bottom: calc(
+			1rem +
+			var(--safe-area-bottom, env(safe-area-inset-bottom))
+		);
+	}
 }
 
 .modal-wrapper-fill {
@@ -63,4 +75,37 @@
 	textarea {
 		font-size: 16px;
 	}
+}
+
+/* Page wrapper layout classes */
+.page-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1rem;
+	min-height: 100%;
+	padding-top: var(--content-safe-area-top, env(safe-area-inset-top));
+	padding-bottom: var(--safe-area-bottom, env(safe-area-inset-bottom));
+}
+
+.page-wrapper.has-topbar {
+	padding-top: calc(
+		5rem +
+		var(--content-safe-area-top, env(safe-area-inset-top))
+	);
+}
+
+.page-wrapper.has-dock {
+	padding-bottom: calc(
+		6rem +
+		var(--safe-area-bottom, env(safe-area-inset-bottom))
+	);
+}
+
+/* Stepper transitions */
+.steps .step::before,
+.steps .step::after {
+	transition:
+		background-color var(--transition-slow) ease,
+		color var(--transition-slow) ease;
 }
