@@ -1,7 +1,6 @@
 import {
 	defineComponent,
 	type FunctionalComponent,
-	h,
 	type SVGAttributes,
 	Transition,
 } from 'vue';
@@ -80,7 +79,7 @@ export default defineComponent({
 										class={route.path === item.path ? 'dock-active' : ''}
 										onClick={() => router.push(item.path)}
 									>
-										{h(item.icon)}
+										<item.icon />
 										<span class="dock-label">{item.label}</span>
 									</button>
 								))}

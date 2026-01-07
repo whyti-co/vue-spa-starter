@@ -1,4 +1,4 @@
-import { defineComponent, h, type PropType } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 import Avatar from '@/components/Avatar';
 import type { TPost } from '../api/posts';
 
@@ -22,7 +22,7 @@ export default defineComponent({
 					<div
 						class={`${props.post.height} w-full bg-gradient-to-br ${props.post.gradient} flex items-center justify-center`}
 					>
-						{h(props.post.icon, { class: 'w-12 h-12 text-base-content/30' })}
+						<props.post.icon class="w-12 h-12 text-base-content/30" />
 					</div>
 				</figure>
 				<div class="card-body p-3">
